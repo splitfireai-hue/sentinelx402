@@ -13,8 +13,9 @@ from slowapi.errors import RateLimitExceeded
 from app.cache import close_redis, init_redis
 from app.config import settings, setup_logging
 from app.database import engine
+from app.metrics import metrics
 from app.models import Base
-from app.routers import cve_intelligence, health, threat_feed
+from app.routers import admin, cve_intelligence, health, threat_feed
 
 logger = logging.getLogger(__name__)
 
@@ -91,8 +92,14 @@ async def security_and_logging_middleware(request: Request, call_next):
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     response.headers["Cache-Control"] = "no-store"
 
-    # Request logging
+    # Request logging + metrics
     duration_ms = (time.time() - start) * 1000
+    metrics.record(
+        method=request.method,
+        path=request.url.path,
+        status_code=response.status_code,
+        duration_ms=duration_ms,
+    )
     logger.info(
         "%s %s %d %.1fms",
         request.method,
@@ -129,6 +136,7 @@ if settings.X402_ENABLED:
         raise
 
 # --- Routers ---
+app.include_router(admin.router)
 app.include_router(health.router)
 app.include_router(
     threat_feed.router,

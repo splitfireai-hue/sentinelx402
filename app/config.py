@@ -37,6 +37,9 @@ class Settings(BaseSettings):
     FREE_TIER_ENABLED: bool = True
     FREE_TIER_REQUESTS: int = 100  # free requests per client
 
+    # Admin Dashboard
+    ADMIN_SECRET: str = ""  # set in env to enable admin dashboard
+
     # Timeouts
     NVD_TIMEOUT_SECONDS: int = 15
 
