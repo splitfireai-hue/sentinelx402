@@ -1,4 +1,10 @@
-"""x402 payment middleware configuration."""
+"""x402 payment middleware configuration.
+
+Launch pricing (lower to drive adoption):
+- Threat endpoints: $0.01 per call
+- CVE lookup:       $0.03 per call
+- Premium feeds:    $0.05 per call
+"""
 
 from app.config import settings
 
@@ -35,32 +41,32 @@ def get_routes_config():
 
     return {
         "GET /api/v1/threats/lookup": RouteConfig(
-            accepts=_option("$0.10"),
+            accepts=_option("$0.01"),
             description="Domain threat risk lookup",
             mime_type="application/json",
         ),
         "GET /api/v1/threats/ip": RouteConfig(
-            accepts=_option("$0.10"),
+            accepts=_option("$0.01"),
             description="IP reputation check",
             mime_type="application/json",
         ),
         "GET /api/v1/threats/feed": RouteConfig(
-            accepts=_option("$0.10"),
+            accepts=_option("$0.05"),
             description="Latest threat indicators feed",
             mime_type="application/json",
         ),
         "GET /api/v1/cves/{cve_id}": RouteConfig(
-            accepts=_option("$0.25"),
+            accepts=_option("$0.03"),
             description="CVE risk analysis",
             mime_type="application/json",
         ),
         "GET /api/v1/cves/recent": RouteConfig(
-            accepts=_option("$0.10"),
+            accepts=_option("$0.05"),
             description="Recent critical CVEs",
             mime_type="application/json",
         ),
         "GET /api/v1/cves/search": RouteConfig(
-            accepts=_option("$0.10"),
+            accepts=_option("$0.03"),
             description="Search CVEs by keyword",
             mime_type="application/json",
         ),

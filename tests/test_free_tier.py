@@ -11,8 +11,8 @@ async def test_usage_endpoint_initial(client):
     assert resp.status_code == 200
     data = resp.json()
     assert data["used"] == 0
-    assert data["limit"] == 100
-    assert data["remaining"] == 100
+    assert data["limit"] == 1000
+    assert data["remaining"] == 1000
     assert data["free_tier_active"] is True
 
 
@@ -52,7 +52,7 @@ async def test_info_shows_free_tier(client):
     data = resp.json()
     assert "free_tier" in data
     assert data["free_tier"]["enabled"] is True
-    assert data["free_tier"]["requests"] == 100
+    assert data["free_tier"]["requests"] == 1000
 
 
 @pytest.mark.asyncio
@@ -65,4 +65,4 @@ async def test_multiple_calls_decrement(client):
     usage = await client.get("/usage")
     data = usage.json()
     assert data["used"] == 3
-    assert data["remaining"] == 97
+    assert data["remaining"] == 997

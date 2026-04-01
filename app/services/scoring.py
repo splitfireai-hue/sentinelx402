@@ -9,6 +9,11 @@ POPULAR_BRANDS = [
     "chase", "wellsfargo", "bankofamerica", "instagram", "linkedin", "twitter",
     "dropbox", "docusign", "coinbase", "binance", "metamask", "telegram",
     "whatsapp", "dhl", "fedex", "ups",
+    # India-specific brands
+    "paytm", "phonepe", "gpay", "bhim", "razorpay", "cred",
+    "sbi", "hdfc", "icici", "axis", "kotak", "pnb", "canara",
+    "aadhaar", "irctc", "flipkart", "myntra", "swiggy", "zomato",
+    "jio", "airtel", "epfo",
 ]
 
 SUSPICIOUS_TLDS = {
@@ -20,6 +25,9 @@ SUSPICIOUS_KEYWORDS = [
     "login", "secure", "verify", "account", "update", "confirm", "auth",
     "billing", "alert", "recovery", "claim", "airdrop", "wallet", "sync",
     "free", "premium", "gold", "tracking", "delivery", "review", "appeal",
+    # India-specific
+    "kyc", "otp", "refund", "recharge", "cashback", "reward", "ekyc",
+    "pancard", "aadhaar", "upi",
 ]
 
 # CWEs commonly weaponized in ransomware

@@ -57,7 +57,7 @@ async def info():
                        "Powered by live threat feeds (OpenPhish, Feodo Tracker, URLhaus) "
                        "and proprietary heuristic scoring.",
         "value_proposition": "One API call can prevent a phishing incident worth thousands. "
-                             "First 100 requests free, then $0.10-$0.25 per request via x402.",
+                             "First 1,000 requests free, then $0.01-$0.05 per request via x402.",
         "free_tier": {
             "enabled": settings.FREE_TIER_ENABLED,
             "requests": settings.FREE_TIER_REQUESTS,
@@ -73,12 +73,12 @@ async def info():
             "refresh_interval": "30 minutes",
         },
         "endpoints": [
-            {"path": "/api/v1/threats/lookup", "method": "GET", "price": "$0.10", "description": "Domain threat risk lookup — real-time phishing detection"},
-            {"path": "/api/v1/threats/ip", "method": "GET", "price": "$0.10", "description": "IP reputation check — C2 and botnet detection"},
-            {"path": "/api/v1/threats/feed", "method": "GET", "price": "$0.10", "description": "Latest threat indicators feed"},
-            {"path": "/api/v1/cves/{cve_id}", "method": "GET", "price": "$0.25", "description": "CVE risk analysis with exploit probability"},
-            {"path": "/api/v1/cves/recent", "method": "GET", "price": "$0.10", "description": "Recent critical CVEs from NVD"},
-            {"path": "/api/v1/cves/search", "method": "GET", "price": "$0.10", "description": "Search CVEs by keyword"},
+            {"path": "/api/v1/threats/lookup", "method": "GET", "price": "$0.01", "description": "Domain threat risk lookup — real-time phishing detection"},
+            {"path": "/api/v1/threats/ip", "method": "GET", "price": "$0.01", "description": "IP reputation check — C2 and botnet detection"},
+            {"path": "/api/v1/threats/feed", "method": "GET", "price": "$0.05", "description": "Latest threat indicators feed"},
+            {"path": "/api/v1/cves/{cve_id}", "method": "GET", "price": "$0.03", "description": "CVE risk analysis with exploit probability"},
+            {"path": "/api/v1/cves/recent", "method": "GET", "price": "$0.05", "description": "Recent critical CVEs from NVD"},
+            {"path": "/api/v1/cves/search", "method": "GET", "price": "$0.03", "description": "Search CVEs by keyword"},
         ],
     }
 
