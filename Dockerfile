@@ -9,9 +9,6 @@ RUN pip install --no-cache-dir --prefix=/install . && \
 
 FROM python:3.11-slim
 
-# Security: non-root user
-RUN groupadd -r sentinel && useradd -r -g sentinel -s /sbin/nologin sentinel
-
 WORKDIR /app
 COPY --from=builder /install /usr/local
 COPY . .
@@ -19,18 +16,10 @@ COPY . .
 # Remove dev files from image
 RUN rm -rf tests/ .env .env.example .gitignore alembic/ docker-compose.dev.yml sdk/
 
-RUN chown -R sentinel:sentinel /app
-USER sentinel
+# Ensure writable data directory for SQLite
+RUN mkdir -p /app/data && chmod 777 /app/data
 
-EXPOSE 8000
+ENV PORT=8000
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
-
-CMD ["python", "-m", "gunicorn", "app.main:app", \
-     "--worker-class", "uvicorn.workers.UvicornWorker", \
-     "--bind", "0.0.0.0:8000", \
-     "--workers", "2", \
-     "--timeout", "30", \
-     "--access-logfile", "-", \
-     "--error-logfile", "-"]
+# Railway overrides CMD via startCommand in railway.toml
+CMD python -m app.data.seed_threats && python -m gunicorn app.main:app --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --workers 2 --timeout 30 --access-logfile - --error-logfile -

@@ -8,7 +8,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # Database
-    DATABASE_URL: str = "sqlite+aiosqlite:///./sentinelx402.db"
+    DATABASE_URL: str = "sqlite+aiosqlite:///./data/sentinelx402.db"
 
     # Redis (optional — leave empty to use in-memory cache)
     REDIS_URL: str = ""
