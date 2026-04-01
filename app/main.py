@@ -53,8 +53,8 @@ app = FastAPI(
     version=settings.API_VERSION,
     description="Cyber threat intelligence APIs for AI agents, paid via x402 micropayments",
     lifespan=lifespan,
-    docs_url="/docs" if not settings.is_production else None,
-    redoc_url="/redoc" if not settings.is_production else None,
+    docs_url="/docs",
+    redoc_url="/redoc",
 )
 
 # --- Middleware (order matters: last added = first executed) ---
