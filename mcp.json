@@ -1,0 +1,60 @@
+{
+  "name": "SentinelX402",
+  "description": "Cyber threat intelligence APIs for AI agents, paid via x402 micropayments. Real-time phishing detection, CVE risk analysis, malicious domain/IP reputation scoring.",
+  "category": "cybersecurity",
+  "keywords": [
+    "threat intelligence",
+    "phishing detection API",
+    "CVE risk intelligence",
+    "x402 paid cybersecurity API",
+    "threat intelligence MCP server",
+    "malicious domain reputation API",
+    "IP reputation API",
+    "IOC feed",
+    "security automation"
+  ],
+  "tools": [
+    {
+      "name": "domain_risk_lookup",
+      "description": "Look up threat risk score for a domain. Returns risk score, threat type, confidence, and related suspicious domains.",
+      "endpoint": "GET /api/v1/threats/lookup?domain={domain}",
+      "price": "0.10 USDC"
+    },
+    {
+      "name": "ip_reputation",
+      "description": "Check IP address reputation and threat associations.",
+      "endpoint": "GET /api/v1/threats/ip?ip={ip}",
+      "price": "0.10 USDC"
+    },
+    {
+      "name": "threat_feed",
+      "description": "Get latest threat indicators feed with pagination.",
+      "endpoint": "GET /api/v1/threats/feed",
+      "price": "0.10 USDC"
+    },
+    {
+      "name": "cve_risk_analysis",
+      "description": "Get detailed CVE risk analysis including exploit probability, patch urgency, and ransomware risk.",
+      "endpoint": "GET /api/v1/cves/{cve_id}",
+      "price": "0.25 USDC"
+    },
+    {
+      "name": "recent_critical_cves",
+      "description": "Get recent critical CVEs from the last 7 days with risk analysis.",
+      "endpoint": "GET /api/v1/cves/recent",
+      "price": "0.10 USDC"
+    },
+    {
+      "name": "cve_search",
+      "description": "Search CVEs by keyword with enhanced risk scoring.",
+      "endpoint": "GET /api/v1/cves/search?keyword={keyword}",
+      "price": "0.10 USDC"
+    }
+  ],
+  "payment": {
+    "protocol": "x402",
+    "currency": "USDC",
+    "network": "Base",
+    "facilitator": "https://x402.org/facilitator"
+  }
+}
