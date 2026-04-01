@@ -1,60 +1,83 @@
 {
   "name": "SentinelX402",
-  "description": "Cyber threat intelligence APIs for AI agents, paid via x402 micropayments. Real-time phishing detection, CVE risk analysis, malicious domain/IP reputation scoring.",
+  "tagline": "Detect malicious domains and IPs in under 300ms with 95% confidence",
+  "description": "Real-time phishing risk scoring API for autonomous security agents. Powered by live threat feeds (OpenPhish, Feodo Tracker, URLhaus) and proprietary heuristic scoring. First 100 requests free, then pay-per-request via x402.",
   "category": "cybersecurity",
   "keywords": [
-    "threat intelligence",
-    "phishing detection API",
-    "CVE risk intelligence",
+    "real-time phishing detection API",
+    "domain risk scoring",
+    "CVE risk intelligence for AI agents",
     "x402 paid cybersecurity API",
     "threat intelligence MCP server",
     "malicious domain reputation API",
     "IP reputation API",
+    "C2 botnet detection",
     "IOC feed",
-    "security automation"
+    "security automation",
+    "SOC automation API",
+    "phishing prevention"
+  ],
+  "data_sources": [
+    "OpenPhish (live phishing URLs)",
+    "Feodo Tracker (C2 botnet IPs)",
+    "URLhaus (malware distribution URLs)",
+    "NVD (CVE vulnerability data)",
+    "Proprietary heuristic scoring engine"
   ],
   "tools": [
     {
       "name": "domain_risk_lookup",
-      "description": "Look up threat risk score for a domain. Returns risk score, threat type, confidence, and related suspicious domains.",
+      "description": "Detect phishing and malicious domains in real-time. Returns risk score (0-100), threat type, confidence, and related suspicious domains.",
       "endpoint": "GET /api/v1/threats/lookup?domain={domain}",
-      "price": "0.10 USDC"
+      "price": "0.10 USDC",
+      "latency": "<300ms"
     },
     {
       "name": "ip_reputation",
-      "description": "Check IP address reputation and threat associations.",
+      "description": "Check if an IP is a known C2 server, botnet node, or malicious host. Powered by Feodo Tracker live feed.",
       "endpoint": "GET /api/v1/threats/ip?ip={ip}",
-      "price": "0.10 USDC"
+      "price": "0.10 USDC",
+      "latency": "<300ms"
     },
     {
       "name": "threat_feed",
-      "description": "Get latest threat indicators feed with pagination.",
+      "description": "Get latest threat indicators (phishing domains, malicious IPs, malware hashes) with pagination.",
       "endpoint": "GET /api/v1/threats/feed",
       "price": "0.10 USDC"
     },
     {
       "name": "cve_risk_analysis",
-      "description": "Get detailed CVE risk analysis including exploit probability, patch urgency, and ransomware risk.",
+      "description": "CVE risk analysis with exploit probability, patch urgency, and ransomware risk. Goes beyond raw CVSS.",
       "endpoint": "GET /api/v1/cves/{cve_id}",
       "price": "0.25 USDC"
     },
     {
       "name": "recent_critical_cves",
-      "description": "Get recent critical CVEs from the last 7 days with risk analysis.",
+      "description": "Recent critical CVEs from the last 7 days with enhanced risk analysis.",
       "endpoint": "GET /api/v1/cves/recent",
       "price": "0.10 USDC"
     },
     {
       "name": "cve_search",
-      "description": "Search CVEs by keyword with enhanced risk scoring.",
+      "description": "Search CVEs by keyword with exploit probability and patch urgency scoring.",
       "endpoint": "GET /api/v1/cves/search?keyword={keyword}",
       "price": "0.10 USDC"
     }
   ],
+  "free_tier": {
+    "requests": 100,
+    "no_signup_required": true
+  },
   "payment": {
     "protocol": "x402",
     "currency": "USDC",
     "network": "Base",
     "facilitator": "https://x402.org/facilitator"
+  },
+  "trust": {
+    "target_latency": "<300ms",
+    "confidence": ">=95% for known threats",
+    "live_feeds_refresh": "every 30 minutes",
+    "stats_endpoint": "/stats"
   }
 }

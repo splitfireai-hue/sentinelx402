@@ -33,6 +33,14 @@ async def lifespan(app: FastAPI):
     await init_redis()
     logger.info("Cache layer initialized (redis=%s)", bool(settings.REDIS_URL))
 
+    # Load live threat feeds
+    from app.services.threat_feeds import refresh_feeds
+    try:
+        feeds = await refresh_feeds()
+        logger.info("Threat feeds loaded: %d total indicators", feeds.total_indicators)
+    except Exception as e:
+        logger.warning("Threat feed initial load failed (will retry on first request): %s", e)
+
     yield
 
     await close_redis()

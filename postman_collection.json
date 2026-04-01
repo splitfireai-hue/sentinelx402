@@ -1,0 +1,118 @@
+{
+  "info": {
+    "name": "SentinelX402 API",
+    "description": "Cyber threat intelligence APIs for AI agents. Real-time phishing detection, CVE risk analysis, IP reputation.\n\nFirst 100 requests free. Then $0.10-$0.25 per request via x402 micropayments (USDC on Base).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://sentinelx402-production.up.railway.app"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health & Info",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/health"
+          }
+        },
+        {
+          "name": "API Info",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/info"
+          }
+        },
+        {
+          "name": "Stats & Metrics",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/stats"
+          }
+        },
+        {
+          "name": "Check Usage",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/usage"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Threat Intelligence",
+      "item": [
+        {
+          "name": "Domain Lookup",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/threats/lookup?domain=login-secure-paypal.com",
+              "query": [{"key": "domain", "value": "login-secure-paypal.com"}]
+            }
+          }
+        },
+        {
+          "name": "IP Reputation",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/threats/ip?ip=185.220.101.42",
+              "query": [{"key": "ip", "value": "185.220.101.42"}]
+            }
+          }
+        },
+        {
+          "name": "Threat Feed",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/threats/feed?page=1&page_size=10",
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "page_size", "value": "10"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "CVE Intelligence",
+      "item": [
+        {
+          "name": "CVE Lookup",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/cves/CVE-2024-3400"
+          }
+        },
+        {
+          "name": "Recent Critical CVEs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/cves/recent?limit=5",
+              "query": [{"key": "limit", "value": "5"}]
+            }
+          }
+        },
+        {
+          "name": "Search CVEs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/cves/search?keyword=apache",
+              "query": [{"key": "keyword", "value": "apache"}]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
