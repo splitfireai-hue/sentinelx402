@@ -92,18 +92,20 @@ async def security_and_logging_middleware(request: Request, call_next):
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     response.headers["Cache-Control"] = "no-store"
 
-    # Request logging + metrics
+    # Request logging + metrics (exclude admin paths)
     duration_ms = (time.time() - start) * 1000
-    metrics.record(
-        method=request.method,
-        path=request.url.path,
-        status_code=response.status_code,
-        duration_ms=duration_ms,
-    )
+    path = request.url.path
+    if not path.startswith("/admin"):
+        metrics.record(
+            method=request.method,
+            path=path,
+            status_code=response.status_code,
+            duration_ms=duration_ms,
+        )
     logger.info(
         "%s %s %d %.1fms",
         request.method,
-        request.url.path,
+        path,
         response.status_code,
         duration_ms,
     )
