@@ -7,11 +7,39 @@
 - Submit your server at: https://mcp.so/submit
 - Use these details:
 
+**Type:** MCP Server
+
 **Name:** SentinelX402
-**Description:** Real-time phishing detection and CVE risk analysis API for AI agents. Powered by live threat feeds. First 1,000 requests free, then pay-per-request via x402 micropayments.
-**Category:** Security / Cybersecurity
-**GitHub:** https://github.com/splitfireai-hue/sentinelx402
-**API URL:** https://sentinelx402-production.up.railway.app
+
+**URL:** https://github.com/splitfireai-hue/sentinelx402
+
+**Server Config:**
+```json
+{
+  "mcpServers": {
+    "sentinelx402": {
+      "url": "https://sentinelx402-production.up.railway.app",
+      "tools": [
+        "domain_risk_lookup",
+        "ip_reputation",
+        "threat_feed",
+        "cve_risk_analysis",
+        "recent_critical_cves",
+        "cve_search"
+      ],
+      "payment": {
+        "protocol": "x402",
+        "currency": "USDC",
+        "network": "Base"
+      },
+      "free_tier": {
+        "requests": 1000,
+        "signup_required": false
+      }
+    }
+  }
+}
+```
 
 ### 2. Awesome MCP Servers (GitHub)
 - URL: https://github.com/punkpeye/awesome-mcp-servers
