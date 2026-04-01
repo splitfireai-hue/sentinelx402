@@ -8,7 +8,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # Database
-    DATABASE_URL: str = "sqlite+aiosqlite:///./data/sentinelx402.db"
+    DATABASE_URL: str = "sqlite+aiosqlite:////app/data/sentinelx402.db"
 
     # Redis (optional — leave empty to use in-memory cache)
     REDIS_URL: str = ""
@@ -50,7 +50,7 @@ class Settings(BaseSettings):
             return ["*"] if not self.is_production else []
         return [o.strip() for o in self.ALLOWED_ORIGINS.split(",") if o.strip()]
 
-    model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
+    model_config = {"env_file": ".env", "env_file_encoding": "utf-8", "env_ignore_empty": True}
 
 
 settings = Settings()

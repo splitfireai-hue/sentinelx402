@@ -16,10 +16,14 @@ COPY . .
 # Remove dev files from image
 RUN rm -rf tests/ .env .env.example .gitignore alembic/ docker-compose.dev.yml sdk/
 
-# Ensure writable data directory for SQLite
+# Writable data directory for SQLite
 RUN mkdir -p /app/data && chmod 777 /app/data
 
+# Defaults (Railway can override via env vars)
 ENV PORT=8000
+ENV DATABASE_URL=sqlite+aiosqlite:////app/data/sentinelx402.db
+ENV ENVIRONMENT=production
+ENV X402_ENABLED=false
+ENV FREE_TIER_ENABLED=true
 
-# Railway overrides CMD via startCommand in railway.toml
-CMD python -m app.data.seed_threats && python -m gunicorn app.main:app --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --workers 2 --timeout 30 --access-logfile - --error-logfile -
+CMD python -m app.data.seed_threats && python -m gunicorn app.main:app --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --workers 2 --timeout 60 --access-logfile - --error-logfile -
