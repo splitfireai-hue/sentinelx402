@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, PlainTextResponse
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -136,6 +136,36 @@ if settings.X402_ENABLED:
         import sys
         print("ERROR: x402 package not installed. Install with: pip install 'x402[fastapi,evm]'", file=sys.stderr)
         raise
+
+# --- Discovery endpoints (for crawlers and agents) ---
+
+@app.get("/robots.txt", response_class=PlainTextResponse, include_in_schema=False)
+async def robots_txt():
+    return "User-agent: *\nAllow: /\nSitemap: https://sentinelx402-production.up.railway.app/info\n"
+
+
+@app.get("/.well-known/mcp", include_in_schema=False)
+async def well_known_mcp():
+    return {
+        "name": "SentinelX402",
+        "url": "https://sentinelx402-production.up.railway.app",
+        "metadata": "https://sentinelx402-production.up.railway.app/info",
+        "mcp_config": "https://github.com/splitfireai-hue/sentinelx402/blob/main/mcp.json",
+    }
+
+
+@app.get("/.well-known/agent.json", include_in_schema=False)
+async def well_known_agent():
+    return {
+        "name": "SentinelX402",
+        "description": "Real-time phishing detection and CVE risk analysis API for AI agents",
+        "url": "https://sentinelx402-production.up.railway.app",
+        "capabilities": ["domain_risk_lookup", "ip_reputation", "threat_feed", "cve_risk_analysis", "recent_critical_cves", "cve_search"],
+        "payment": {"protocol": "x402", "currency": "USDC", "network": "Base"},
+        "free_tier": {"requests": 1000, "signup_required": False},
+        "docs": "https://sentinelx402-production.up.railway.app/docs",
+    }
+
 
 # --- Routers ---
 app.include_router(admin.router)
