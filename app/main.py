@@ -144,6 +144,32 @@ async def robots_txt():
     return "User-agent: *\nAllow: /\nSitemap: https://sentinelx402-production.up.railway.app/info\n"
 
 
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return Response(status_code=204)
+
+
+@app.get("/sitemap.xml", response_class=PlainTextResponse, include_in_schema=False)
+async def sitemap():
+    return """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://sentinelx402-production.up.railway.app/info</loc></url>
+  <url><loc>https://sentinelx402-production.up.railway.app/docs</loc></url>
+  <url><loc>https://sentinelx402-production.up.railway.app/stats</loc></url>
+</urlset>"""
+
+
+@app.get("/.well-known/security.txt", response_class=PlainTextResponse, include_in_schema=False)
+async def security_txt():
+    return "Contact: https://github.com/splitfireai-hue/sentinelx402/issues\nPreferred-Languages: en\n"
+
+
+@app.get("/api", include_in_schema=False)
+@app.get("/api/v1", include_in_schema=False)
+async def api_root():
+    return {"message": "SentinelX402 API v1", "docs": "/docs", "info": "/info"}
+
+
 @app.get("/.well-known/mcp", include_in_schema=False)
 async def well_known_mcp():
     return {
