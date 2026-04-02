@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -164,11 +164,76 @@ async def security_txt():
     return "Contact: https://github.com/splitfireai-hue/sentinelx402/issues\nPreferred-Languages: en\n"
 
 
-@app.get("/", include_in_schema=False)
+@app.get("/", response_class=HTMLResponse, include_in_schema=False)
+async def landing_page():
+    return """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SentinelX402 — Threat Intelligence API</title>
+<meta name="description" content="Real-time phishing detection and CVE risk analysis API for AI agents. Pay per request via x402 micropayments.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0a;color:#e0e0e0;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.container{max-width:640px;padding:40px 24px;text-align:center}
+h1{font-size:36px;font-weight:700;margin-bottom:8px;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tagline{font-size:18px;color:#888;margin-bottom:32px}
+.stats{display:flex;gap:24px;justify-content:center;margin-bottom:32px}
+.stat{background:#161616;border:1px solid #222;border-radius:8px;padding:16px 24px}
+.stat .num{font-size:24px;font-weight:700;color:#4ade80}
+.stat .label{font-size:11px;color:#666;text-transform:uppercase;letter-spacing:0.5px;margin-top:4px}
+.try{background:#161616;border:1px solid #222;border-radius:8px;padding:20px;margin-bottom:32px;text-align:left}
+.try code{display:block;background:#0d0d0d;padding:12px;border-radius:4px;font-family:'SF Mono',Monaco,monospace;font-size:13px;color:#60a5fa;overflow-x:auto;margin-top:8px;word-break:break-all}
+.try .label{font-size:13px;color:#888}
+.links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.links a{display:inline-block;padding:10px 24px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;transition:all .2s}
+.primary{background:#3b82f6;color:#fff}
+.primary:hover{background:#2563eb}
+.secondary{background:#161616;color:#e0e0e0;border:1px solid #333}
+.secondary:hover{background:#222}
+.free{margin-top:24px;font-size:13px;color:#4ade80}
+.footer{margin-top:32px;font-size:12px;color:#444}
+.footer a{color:#666;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>SentinelX402</h1>
+<p class="tagline">Detect malicious domains and IPs in under 300ms with 95% confidence</p>
+
+<div class="stats">
+<div class="stat"><div class="num">22K+</div><div class="label">Live Indicators</div></div>
+<div class="stat"><div class="num">&lt;300ms</div><div class="label">Latency</div></div>
+<div class="stat"><div class="num">$0.01</div><div class="label">Per Request</div></div>
+</div>
+
+<div class="try">
+<span class="label">Try it now:</span>
+<code>curl "https://sentinelx402-production.up.railway.app/api/v1/threats/lookup?domain=login-secure-paypal.com"</code>
+</div>
+
+<div class="links">
+<a href="/docs" class="primary">API Docs</a>
+<a href="/info" class="secondary">Pricing & Endpoints</a>
+<a href="/stats" class="secondary">Live Stats</a>
+<a href="https://github.com/splitfireai-hue/sentinelx402" class="secondary">GitHub</a>
+</div>
+
+<p class="free">First 1,000 requests free — no signup, no API key</p>
+
+<div class="footer">
+Powered by OpenPhish, Feodo Tracker, URLhaus, NVD &nbsp;|&nbsp; Pay via <a href="https://x402.org">x402</a> (USDC on Base)
+</div>
+</div>
+</body>
+</html>"""
+
+
 @app.get("/api", include_in_schema=False)
 @app.get("/api/v1", include_in_schema=False)
 async def api_root():
-    return {"name": "SentinelX402", "tagline": "Detect malicious domains and IPs in under 300ms", "docs": "/docs", "info": "/info", "health": "/health"}
+    return {"name": "SentinelX402", "docs": "/docs", "info": "/info"}
 
 
 @app.get("/.well-known/mcp", include_in_schema=False)
