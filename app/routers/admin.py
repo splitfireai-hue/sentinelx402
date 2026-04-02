@@ -211,7 +211,7 @@ tr:hover{{background:#1a1a1a}}
     <h3>Recent Requests</h3>
     <div class="section">
       <table>
-        <tr><th>Time (UTC)</th><th>Path</th><th>Status</th><th>Latency</th></tr>
+        <tr><th>Time (IST)</th><th>Path</th><th>Status</th><th>Latency</th></tr>
         {log_rows}
       </table>
     </div>

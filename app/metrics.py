@@ -43,7 +43,7 @@ class MetricsCollector:
             if status_code >= 400:
                 self._endpoint_errors[path] += 1
 
-            hour_key = time.strftime("%Y-%m-%d %H", time.gmtime())
+            hour_key = time.strftime("%Y-%m-%d %H", time.gmtime(time.time() + 19800))
             self._hourly_counts[hour_key] += 1
 
             self._logs.append(RequestLog(
@@ -101,7 +101,7 @@ class MetricsCollector:
             logs.reverse()
             return [
                 {
-                    "time": time.strftime("%H:%M:%S", time.gmtime(log.timestamp)),
+                    "time": time.strftime("%H:%M:%S", time.gmtime(log.timestamp + 19800)),
                     "method": log.method,
                     "path": log.path,
                     "status": log.status_code,
@@ -118,7 +118,7 @@ class MetricsCollector:
             errors.reverse()
             return [
                 {
-                    "time": time.strftime("%H:%M:%S", time.gmtime(log.timestamp)),
+                    "time": time.strftime("%H:%M:%S", time.gmtime(log.timestamp + 19800)),
                     "path": log.path,
                     "status": log.status_code,
                     "ms": log.duration_ms,
