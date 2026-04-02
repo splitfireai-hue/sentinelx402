@@ -36,3 +36,4 @@ Thumbs.db
 .production/
 agents/*.json
 agents/latest_*.md
+agents/marketing_output/
