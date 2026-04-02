@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "SentinelX402 API",
-    "description": "Cyber threat intelligence APIs for AI agents. Real-time phishing detection, CVE risk analysis, IP reputation.\n\nFirst 100 requests free. Then $0.10-$0.25 per request via x402 micropayments (USDC on Base).",
+    "description": "Free threat intelligence API for AI agents. Real-time phishing detection, CVE risk analysis, IP reputation. 1,000 free requests — no signup, no API key.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [

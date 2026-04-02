@@ -26,7 +26,7 @@ else:
     print("Safe to proceed")
 ```
 
-**Value:** One API call ($0.01) prevents a phishing incident worth thousands.
+**Value:** One API call prevents a phishing incident worth thousands.
 
 ### 2. SOC Automation / SIEM Enrichment
 Your security operations pipeline processes thousands of alerts daily. Enrich each IOC automatically:

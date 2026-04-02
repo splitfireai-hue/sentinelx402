@@ -83,14 +83,14 @@ except SentinelXError as e:
 
 ## API Methods
 
-| Method | Description | Price |
-|--------|-------------|-------|
-| `domain_lookup(domain)` | Domain threat risk score | $0.10 |
-| `ip_lookup(ip)` | IP reputation check | $0.10 |
-| `threat_feed(page, page_size)` | Latest IOC feed | $0.10 |
-| `cve_lookup(cve_id)` | CVE risk analysis | $0.25 |
-| `recent_cves(limit)` | Recent critical CVEs | $0.10 |
-| `search_cves(keyword, limit)` | Search CVEs | $0.10 |
-| `usage()` | Check free tier usage | Free |
+| Method | Description |
+|--------|-------------|
+| `domain_lookup(domain)` | Domain threat risk score |
+| `ip_lookup(ip)` | IP reputation check |
+| `threat_feed(page, page_size)` | Latest IOC feed |
+| `cve_lookup(cve_id)` | CVE risk analysis |
+| `recent_cves(limit)` | Recent critical CVEs |
+| `search_cves(keyword, limit)` | Search CVEs |
+| `usage()` | Check free tier usage |
 
-First 100 requests are free. After that, enable x402 micropayments (USDC on Base).
+1,000 free requests. No signup, no API key.

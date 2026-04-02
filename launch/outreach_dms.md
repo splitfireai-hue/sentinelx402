@@ -24,7 +24,7 @@ First 1,000 calls are free. Would be great to get your feedback: https://sentine
 
 ## Template 3: For LangChain/MCP builders (GitHub, Discord)
 
-Hey — built an MCP-compatible threat intelligence server that agents can discover and pay per request via x402.
+Hey — built a free MCP-compatible threat intelligence server that agents can discover and use instantly.
 
 Tools available: domain risk lookup, IP reputation, CVE analysis.
 

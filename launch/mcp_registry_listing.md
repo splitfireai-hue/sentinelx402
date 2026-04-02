@@ -44,7 +44,7 @@
 ### 2. Awesome MCP Servers (GitHub)
 - URL: https://github.com/punkpeye/awesome-mcp-servers
 - Open a PR adding your server to the Security section
-- One-line entry: `[SentinelX402](https://github.com/splitfireai-hue/sentinelx402) - Threat intelligence API with real-time phishing detection, CVE analysis, and x402 micropayments`
+- One-line entry: `[SentinelX402](https://github.com/splitfireai-hue/sentinelx402) - Free threat intelligence API with real-time phishing detection, CVE analysis. 1,000 free requests.`
 
 ### 3. Smithery (MCP Registry)
 - URL: https://smithery.ai
@@ -62,6 +62,6 @@
 - threat intelligence MCP server
 - phishing detection API
 - CVE risk intelligence for AI agents
-- x402 paid cybersecurity API
+- free cybersecurity API for agents
 - real-time domain reputation scoring
 - India-focused threat intelligence
