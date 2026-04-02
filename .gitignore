@@ -34,3 +34,5 @@ test.db
 .DS_Store
 Thumbs.db
 .production/
+agents/*.json
+agents/latest_*.md
