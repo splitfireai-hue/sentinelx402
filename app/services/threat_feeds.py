@@ -24,6 +24,24 @@ URLHAUS_RECENT_URL = "https://urlhaus.abuse.ch/downloads/csv_recent/"
 
 FEED_TTL = 1800  # 30 minutes
 
+# Major legitimate domains that sometimes host malware (user uploads, repos, etc.)
+# These should never be flagged as malicious at the domain level
+SAFE_DOMAINS = {
+    "github.com", "raw.githubusercontent.com", "gist.github.com",
+    "google.com", "drive.google.com", "docs.google.com",
+    "dropbox.com", "dl.dropboxusercontent.com",
+    "amazonaws.com", "s3.amazonaws.com",
+    "discord.com", "cdn.discordapp.com",
+    "telegram.org", "t.me",
+    "pastebin.com", "anonfiles.com",
+    "mediafire.com", "mega.nz",
+    "onedrive.live.com", "1drv.ms",
+    "bitbucket.org", "gitlab.com",
+    "stackoverflow.com", "reddit.com",
+    "microsoft.com", "apple.com",
+    "cloudflare.com", "fastly.net",
+}
+
 
 @dataclass
 class ThreatFeedCache:
@@ -165,6 +183,9 @@ def get_cache() -> ThreatFeedCache:
 def check_domain(domain: str) -> Optional[Dict]:
     """Check a domain against all live feeds."""
     domain = domain.lower()
+    # Skip known-safe domains (legitimate sites that sometimes host malware)
+    if domain in SAFE_DOMAINS:
+        return None
     if domain in _cache.phishing_domains:
         return {"source": "openphish", "threat_type": "phishing", "confidence": 0.95}
     if domain in _cache.malware_domains:

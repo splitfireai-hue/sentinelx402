@@ -1,8 +1,89 @@
 # SentinelX402
 
-**Cyber threat intelligence APIs for AI agents, paid via x402 micropayments.**
+**Detect malicious domains and IPs in under 300ms with 95% confidence.**
 
-Real-time phishing detection, CVE risk analysis, and malicious domain/IP reputation scoring — accessible to autonomous agents via HTTP-native micropayments on Base (USDC).
+Real-time phishing detection, CVE risk analysis, and malicious domain/IP reputation scoring for AI agents. Powered by live threat feeds. Pay per request via x402 micropayments (USDC on Base). First 1,000 requests free.
+
+**Live API:** https://sentinelx402-production.up.railway.app/info
+
+---
+
+## Use Cases
+
+### 1. Phishing Detection Agent
+Your agent scans URLs from emails, chat messages, or web scraping. Before opening any link, it checks SentinelX402:
+
+```python
+from sentinelx import SentinelX
+
+client = SentinelX(base_url="https://sentinelx402-production.up.railway.app")
+risk = client.domain_lookup("login-secure-paypal.com")
+
+if risk.is_malicious:
+    print(f"BLOCKED: {risk.domain} — {risk.threat_type} (score: {risk.risk_score})")
+    # → BLOCKED: login-secure-paypal.com — phishing (score: 94.0)
+else:
+    print("Safe to proceed")
+```
+
+**Value:** One API call ($0.01) prevents a phishing incident worth thousands.
+
+### 2. SOC Automation / SIEM Enrichment
+Your security operations pipeline processes thousands of alerts daily. Enrich each IOC automatically:
+
+```python
+# Enrich IP from firewall alert
+ip = client.ip_lookup("185.220.101.42")
+if ip.is_malicious:
+    trigger_alert(f"C2 server detected: {ip.threat_types}")
+    # → C2 server detected: ['c2'] — tags: cobalt-strike
+
+# Bulk domain scanning
+suspicious_domains = ["amaz0n-verify.com", "google.com", "hdfc-netbanking-secure.xyz"]
+for domain in suspicious_domains:
+    risk = client.domain_lookup(domain)
+    print(f"{domain}: {risk.risk_score} ({risk.threat_type})")
+```
+
+**Value:** Replaces hours of analyst triage with sub-second automated scoring.
+
+### 3. Vulnerability Prioritization Agent
+Your agent monitors new CVEs and decides which ones need immediate patching:
+
+```python
+# Check a specific CVE
+cve = client.cve_lookup("CVE-2024-3400")
+print(f"CVSS: {cve.cvss}, Exploit probability: {cve.exploit_probability}")
+print(f"Patch urgency: {cve.patch_urgency}, Ransomware risk: {cve.ransomware_risk}")
+# → CVSS: 10.0, Exploit probability: 1.0
+# → Patch urgency: critical, Ransomware risk: False
+
+# Get this week's critical vulnerabilities
+recent = client.recent_cves(limit=5)
+for cve in recent.cves:
+    if cve.is_critical:
+        create_jira_ticket(cve.cve_id, cve.description, priority="P0")
+```
+
+**Value:** Goes beyond raw CVSS with exploit probability and ransomware risk scoring.
+
+### 4. Indian Fintech Fraud Detection
+Detect UPI fraud domains, Indian bank phishing, and Aadhaar/PAN scams:
+
+```python
+risk = client.domain_lookup("sbi-online-banking-verify.com")
+# → score: 96.0, type: phishing, tags: [india, banking, sbi, credential-theft]
+
+risk = client.domain_lookup("upi-paytm-cashback-claim.com")
+# → score: 97.0, type: phishing, tags: [india, upi, paytm, cashback-scam]
+
+risk = client.domain_lookup("aadhaar-ekyc-verification.in")
+# → score: 98.0, type: phishing, tags: [india, government, aadhaar, identity-theft]
+```
+
+**Value:** India-specific threat coverage that global APIs don't have.
+
+---
 
 ## Quickstart
 
