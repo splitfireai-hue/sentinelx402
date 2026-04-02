@@ -20,12 +20,9 @@ async def seed() -> None:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    indicators = []
-    for filename in ["threat_indicators.json", "india_threats.json"]:
-        data_path = Path(__file__).parent / filename
-        if data_path.exists():
-            with open(data_path) as f:
-                indicators.extend(json.load(f))
+    data_path = Path(__file__).parent / "threat_indicators.json"
+    with open(data_path) as f:
+        indicators = json.load(f)
 
     added = 0
     async with async_session() as session:

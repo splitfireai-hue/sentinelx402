@@ -300,4 +300,8 @@ pytest -v
 
 ## License
 
-MIT
+AGPL-3.0 — You can use and modify this code, but if you deploy a modified version as a network service, you must publish your source code.
+
+The proprietary scoring algorithms, extended brand datasets, multi-source feed integrations, and India-focused threat data used by the hosted SentinelX402 service are not included in this repository.
+
+**Want the full production version?** Use the hosted API at https://sentinelx402-production.up.railway.app — first 1,000 requests free.

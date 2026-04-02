@@ -1,19 +1,18 @@
-"""Risk scoring algorithms for threat intelligence and CVE analysis."""
+"""Risk scoring algorithms for threat intelligence and CVE analysis.
+
+NOTE: This is a simplified reference implementation. The production
+SentinelX402 service uses proprietary scoring models with additional
+signals, brand datasets, and tuned thresholds not included here.
+"""
 
 import hashlib
 import math
 from dataclasses import dataclass
 
+# Reference brand list (production uses an extended proprietary dataset)
 POPULAR_BRANDS = [
-    "paypal", "amazon", "microsoft", "apple", "google", "facebook", "netflix",
-    "chase", "wellsfargo", "bankofamerica", "instagram", "linkedin", "twitter",
-    "dropbox", "docusign", "coinbase", "binance", "metamask", "telegram",
-    "whatsapp", "dhl", "fedex", "ups",
-    # India-specific brands
-    "paytm", "phonepe", "gpay", "bhim", "razorpay", "cred",
-    "sbi", "hdfc", "icici", "axis", "kotak", "pnb", "canara",
-    "aadhaar", "irctc", "flipkart", "myntra", "swiggy", "zomato",
-    "jio", "airtel", "epfo",
+    "paypal", "amazon", "microsoft", "apple", "google", "facebook",
+    "netflix", "instagram", "linkedin", "coinbase", "binance",
 ]
 
 SUSPICIOUS_TLDS = {
@@ -22,15 +21,10 @@ SUSPICIOUS_TLDS = {
 }
 
 SUSPICIOUS_KEYWORDS = [
-    "login", "secure", "verify", "account", "update", "confirm", "auth",
-    "billing", "alert", "recovery", "claim", "airdrop", "wallet", "sync",
-    "free", "premium", "gold", "tracking", "delivery", "review", "appeal",
-    # India-specific
-    "kyc", "otp", "refund", "recharge", "cashback", "reward", "ekyc",
-    "pancard", "aadhaar", "upi",
+    "login", "secure", "verify", "account", "update", "confirm",
+    "auth", "billing", "alert", "recovery", "claim", "wallet",
 ]
 
-# CWEs commonly weaponized in ransomware
 RANSOMWARE_CWES = {
     "CWE-787", "CWE-416", "CWE-190", "CWE-20", "CWE-78",
     "CWE-119", "CWE-502", "CWE-94", "CWE-918",
@@ -53,7 +47,6 @@ class CVERiskResult:
 
 
 def _domain_entropy(domain: str) -> float:
-    """Calculate Shannon entropy of a domain name — higher entropy suggests randomization."""
     freq = {}
     for ch in domain:
         freq[ch] = freq.get(ch, 0) + 1
@@ -62,7 +55,6 @@ def _domain_entropy(domain: str) -> float:
 
 
 def _levenshtein(a: str, b: str) -> int:
-    """Simple Levenshtein distance."""
     if len(a) < len(b):
         return _levenshtein(b, a)
     if not b:
@@ -77,7 +69,6 @@ def _levenshtein(a: str, b: str) -> int:
 
 
 def _brand_similarity(domain: str) -> float:
-    """Score 0-1 indicating how similar a domain is to a popular brand."""
     domain_lower = domain.lower().split(".")[0]
     best = 0.0
     for brand in POPULAR_BRANDS:
@@ -91,42 +82,35 @@ def _brand_similarity(domain: str) -> float:
 
 
 def compute_domain_risk(domain: str) -> DomainRiskResult:
-    """Compute risk score for a domain based on heuristic signals."""
+    """Compute risk score for a domain. Reference implementation."""
     score = 0.0
     signals = 0
 
-    # TLD check
     for tld in SUSPICIOUS_TLDS:
         if domain.endswith(tld):
             score += 25
             signals += 1
             break
 
-    # Keyword check
     domain_lower = domain.lower()
     keyword_hits = sum(1 for kw in SUSPICIOUS_KEYWORDS if kw in domain_lower)
     score += min(keyword_hits * 12, 30)
     signals += min(keyword_hits, 3)
 
-    # Brand similarity
     brand_sim = _brand_similarity(domain)
     if brand_sim >= 0.7:
         score += 25
         signals += 1
 
-    # Entropy — very high entropy domains are suspicious
     entropy = _domain_entropy(domain.split(".")[0])
     if entropy > 3.5:
         score += 10
         signals += 1
 
-    # Hyphen count — phishing domains often have many hyphens
-    hyphens = domain.count("-")
-    if hyphens >= 2:
+    if domain.count("-") >= 2:
         score += 10
         signals += 1
 
-    # Deterministic hash fallback for unknown domains (adds slight randomness)
     hash_val = int(hashlib.md5(domain.encode()).hexdigest()[:8], 16) % 15
     score += hash_val
 
@@ -150,18 +134,15 @@ def compute_cve_risk(
     has_exploit: bool = False,
     cwe_id: str = "",
 ) -> CVERiskResult:
-    """Compute enhanced risk analysis for a CVE beyond raw CVSS."""
-    # Exploit probability based on CVSS + exploit availability
+    """Compute enhanced risk analysis for a CVE. Reference implementation."""
     base_prob = cvss_score / 10.0
     if has_exploit:
         exploit_probability = min(base_prob + 0.3, 1.0)
     else:
         exploit_probability = base_prob * 0.7
 
-    # Ransomware risk
     ransomware_risk = cwe_id in RANSOMWARE_CWES and cvss_score >= 7.0
 
-    # Risk level
     if cvss_score >= 9.0:
         risk_level = "critical"
     elif cvss_score >= 7.0:
@@ -171,7 +152,6 @@ def compute_cve_risk(
     else:
         risk_level = "low"
 
-    # Patch urgency
     if cvss_score >= 9.0 or (has_exploit and cvss_score >= 7.0):
         patch_urgency = "critical"
     elif cvss_score >= 7.0:
