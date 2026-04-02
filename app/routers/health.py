@@ -57,15 +57,11 @@ async def info():
                        "Powered by live threat feeds (OpenPhish, Feodo Tracker, URLhaus) "
                        "and proprietary heuristic scoring.",
         "value_proposition": "One API call can prevent a phishing incident worth thousands. "
-                             "First 1,000 requests free, then $0.01-$0.05 per request via x402.",
+                             "1,000 free requests — no signup, no API key.",
         "free_tier": {
             "enabled": settings.FREE_TIER_ENABLED,
             "requests": settings.FREE_TIER_REQUESTS,
-        },
-        "payment": {
-            "protocol": "x402",
-            "currency": "USDC",
-            "network": "Base",
+            "signup_required": False,
         },
         "live_feeds": {
             "sources": ["OpenPhish", "Feodo Tracker", "URLhaus"],
@@ -73,12 +69,12 @@ async def info():
             "refresh_interval": "30 minutes",
         },
         "endpoints": [
-            {"path": "/api/v1/threats/lookup", "method": "GET", "price": "$0.01", "description": "Domain threat risk lookup — real-time phishing detection"},
-            {"path": "/api/v1/threats/ip", "method": "GET", "price": "$0.01", "description": "IP reputation check — C2 and botnet detection"},
-            {"path": "/api/v1/threats/feed", "method": "GET", "price": "$0.05", "description": "Latest threat indicators feed"},
-            {"path": "/api/v1/cves/{cve_id}", "method": "GET", "price": "$0.03", "description": "CVE risk analysis with exploit probability"},
-            {"path": "/api/v1/cves/recent", "method": "GET", "price": "$0.05", "description": "Recent critical CVEs from NVD"},
-            {"path": "/api/v1/cves/search", "method": "GET", "price": "$0.03", "description": "Search CVEs by keyword"},
+            {"path": "/api/v1/threats/lookup", "method": "GET", "description": "Domain threat risk lookup — real-time phishing detection"},
+            {"path": "/api/v1/threats/ip", "method": "GET", "description": "IP reputation check — C2 and botnet detection"},
+            {"path": "/api/v1/threats/feed", "method": "GET", "description": "Latest threat indicators feed"},
+            {"path": "/api/v1/cves/{cve_id}", "method": "GET", "description": "CVE risk analysis with exploit probability"},
+            {"path": "/api/v1/cves/recent", "method": "GET", "description": "Recent critical CVEs from NVD"},
+            {"path": "/api/v1/cves/search", "method": "GET", "description": "Search CVEs by keyword"},
         ],
     }
 

@@ -21,7 +21,7 @@ async def test_info(client):
     data = resp.json()
     assert data["name"] == "SentinelX402"
     assert len(data["endpoints"]) == 6
-    assert data["payment"]["protocol"] == "x402"
+    assert data["free_tier"]["requests"] == 1000
 
 
 @pytest.mark.asyncio

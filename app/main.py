@@ -172,7 +172,7 @@ async def landing_page():
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SentinelX402 — Threat Intelligence API</title>
-<meta name="description" content="Real-time phishing detection and CVE risk analysis API for AI agents. Pay per request via x402 micropayments.">
+<meta name="description" content="Free threat intelligence API for AI agents. Real-time phishing detection, CVE risk analysis, IP reputation.">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0a;color:#e0e0e0;min-height:100vh;display:flex;align-items:center;justify-content:center}
@@ -205,7 +205,7 @@ h1{font-size:36px;font-weight:700;margin-bottom:8px;background:linear-gradient(1
 <div class="stats">
 <div class="stat"><div class="num">22K+</div><div class="label">Live Indicators</div></div>
 <div class="stat"><div class="num">&lt;300ms</div><div class="label">Latency</div></div>
-<div class="stat"><div class="num">$0.01</div><div class="label">Per Request</div></div>
+<div class="stat"><div class="num">FREE</div><div class="label">1,000 Requests</div></div>
 </div>
 
 <div class="try">
@@ -215,15 +215,15 @@ h1{font-size:36px;font-weight:700;margin-bottom:8px;background:linear-gradient(1
 
 <div class="links">
 <a href="/docs" class="primary">API Docs</a>
-<a href="/info" class="secondary">Pricing & Endpoints</a>
+<a href="/info" class="secondary">Endpoints</a>
 <a href="/stats" class="secondary">Live Stats</a>
 <a href="https://github.com/splitfireai-hue/sentinelx402" class="secondary">GitHub</a>
 </div>
 
-<p class="free">First 1,000 requests free — no signup, no API key</p>
+<p class="free">1,000 free requests — no signup, no API key, no credit card</p>
 
 <div class="footer">
-Powered by OpenPhish, Feodo Tracker, URLhaus, NVD &nbsp;|&nbsp; Pay via <a href="https://x402.org">x402</a> (USDC on Base)
+Powered by OpenPhish, Feodo Tracker, URLhaus, NVD
 </div>
 </div>
 </body>
@@ -250,10 +250,9 @@ async def well_known_mcp():
 async def well_known_agent():
     return {
         "name": "SentinelX402",
-        "description": "Real-time phishing detection and CVE risk analysis API for AI agents",
+        "description": "Free threat intelligence API for AI agents. Real-time phishing detection, CVE risk analysis, IP reputation.",
         "url": "https://sentinelx402-production.up.railway.app",
         "capabilities": ["domain_risk_lookup", "ip_reputation", "threat_feed", "cve_risk_analysis", "recent_critical_cves", "cve_search"],
-        "payment": {"protocol": "x402", "currency": "USDC", "network": "Base"},
         "free_tier": {"requests": 1000, "signup_required": False},
         "docs": "https://sentinelx402-production.up.railway.app/docs",
     }

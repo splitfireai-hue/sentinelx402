@@ -1,13 +1,13 @@
 {
   "name": "SentinelX402",
   "tagline": "Detect malicious domains and IPs in under 300ms with 95% confidence",
-  "description": "Real-time phishing risk scoring API for autonomous security agents. Powered by live threat feeds (OpenPhish, Feodo Tracker, URLhaus) and proprietary heuristic scoring. First 100 requests free, then pay-per-request via x402.",
+  "description": "Free threat intelligence API for AI agents. Real-time phishing detection, CVE risk analysis, IP reputation. Powered by live feeds. 1,000 free requests, no signup required.",
   "category": "cybersecurity",
   "keywords": [
-    "real-time phishing detection API",
+    "free threat intelligence API",
+    "real-time phishing detection",
     "domain risk scoring",
     "CVE risk intelligence for AI agents",
-    "x402 paid cybersecurity API",
     "threat intelligence MCP server",
     "malicious domain reputation API",
     "IP reputation API",
@@ -29,50 +29,38 @@
       "name": "domain_risk_lookup",
       "description": "Detect phishing and malicious domains in real-time. Returns risk score (0-100), threat type, confidence, and related suspicious domains.",
       "endpoint": "GET /api/v1/threats/lookup?domain={domain}",
-      "price": "0.10 USDC",
       "latency": "<300ms"
     },
     {
       "name": "ip_reputation",
       "description": "Check if an IP is a known C2 server, botnet node, or malicious host. Powered by Feodo Tracker live feed.",
       "endpoint": "GET /api/v1/threats/ip?ip={ip}",
-      "price": "0.10 USDC",
       "latency": "<300ms"
     },
     {
       "name": "threat_feed",
       "description": "Get latest threat indicators (phishing domains, malicious IPs, malware hashes) with pagination.",
-      "endpoint": "GET /api/v1/threats/feed",
-      "price": "0.10 USDC"
+      "endpoint": "GET /api/v1/threats/feed"
     },
     {
       "name": "cve_risk_analysis",
       "description": "CVE risk analysis with exploit probability, patch urgency, and ransomware risk. Goes beyond raw CVSS.",
-      "endpoint": "GET /api/v1/cves/{cve_id}",
-      "price": "0.25 USDC"
+      "endpoint": "GET /api/v1/cves/{cve_id}"
     },
     {
       "name": "recent_critical_cves",
       "description": "Recent critical CVEs from the last 7 days with enhanced risk analysis.",
-      "endpoint": "GET /api/v1/cves/recent",
-      "price": "0.10 USDC"
+      "endpoint": "GET /api/v1/cves/recent"
     },
     {
       "name": "cve_search",
       "description": "Search CVEs by keyword with exploit probability and patch urgency scoring.",
-      "endpoint": "GET /api/v1/cves/search?keyword={keyword}",
-      "price": "0.10 USDC"
+      "endpoint": "GET /api/v1/cves/search?keyword={keyword}"
     }
   ],
   "free_tier": {
-    "requests": 100,
+    "requests": 1000,
     "no_signup_required": true
-  },
-  "payment": {
-    "protocol": "x402",
-    "currency": "USDC",
-    "network": "Base",
-    "facilitator": "https://x402.org/facilitator"
   },
   "trust": {
     "target_latency": "<300ms",

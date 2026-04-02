@@ -1,22 +1,22 @@
-# Show HN: Threat intelligence API for AI agents, paid per request via HTTP 402
+# Show HN: Free threat intelligence API for AI agents — phishing detection in <300ms
 
-**Title:** Show HN: Threat intelligence API for AI agents, paid per request via HTTP 402
+**Title:** Show HN: Free threat intelligence API for AI agents — phishing detection in <300ms
 
 **URL:** https://github.com/splitfireai-hue/sentinelx402
 
 **Text (paste in the text box):**
 
-I built a cyber threat intelligence API designed for autonomous AI agents. It detects phishing domains, malicious IPs, and CVE risks — and accepts micropayments via the x402 protocol (USDC on Base).
+I built a threat intelligence API designed for AI agents. It detects phishing domains, malicious IPs, and CVE risks using live threat feeds.
 
-The problem: AI agents need real-time threat data, but existing APIs require API key signups, subscriptions, and human checkout. That doesn't work for autonomous systems.
+The problem: AI agents need real-time threat data, but existing APIs require account creation, API key management, and subscriptions. That friction kills autonomous workflows.
 
-SentinelX402 solves this with:
+SentinelX402 is free to use — 1,000 requests, no signup, no API key:
 
 - Real-time phishing detection using live feeds (OpenPhish, Feodo Tracker, URLhaus)
 - CVE risk analysis with exploit probability scoring (from NVD data)
-- India-focused threat data (UPI fraud, bank spoofing domains)
-- HTTP-native payments via x402 — no signup, no API key, just pay per request
-- First 1,000 requests free
+- IP reputation checking (C2/botnet detection)
+- Drop-in integrations for LangChain, CrewAI, OpenAI function calling, and MCP
+- Python SDK included
 
 Example:
 
@@ -24,9 +24,7 @@ Example:
 
 Returns risk score, threat type, confidence, and related suspicious domains in <300ms.
 
-Tech stack: FastAPI, SQLite, live OSINT feeds, x402 (Coinbase), Python SDK included.
-
-Looking for feedback from anyone building security agents or agent-to-agent commerce tools.
+Looking for feedback from anyone building security agents or automation tools.
 
 GitHub: https://github.com/splitfireai-hue/sentinelx402
-Live API: https://sentinelx402-production.up.railway.app/info
+Live API: https://sentinelx402-production.up.railway.app

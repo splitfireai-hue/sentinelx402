@@ -2,7 +2,7 @@
 
 **Detect malicious domains and IPs in under 300ms with 95% confidence.**
 
-Real-time phishing detection, CVE risk analysis, and malicious domain/IP reputation scoring for AI agents. Powered by live threat feeds. Pay per request via x402 micropayments (USDC on Base). First 1,000 requests free.
+Free threat intelligence API for AI agents. Real-time phishing detection, CVE risk analysis, and IP reputation scoring. Powered by live threat feeds. 1,000 free requests — no signup, no API key.
 
 **Live API:** https://sentinelx402-production.up.railway.app/info
 
@@ -136,16 +136,18 @@ gunicorn app.main:app \
 
 ## API Reference
 
-| Endpoint | Method | Price | Description |
-|----------|--------|-------|-------------|
-| `/api/v1/threats/lookup?domain=` | GET | $0.10 | Domain threat risk lookup |
-| `/api/v1/threats/ip?ip=` | GET | $0.10 | IP reputation check |
-| `/api/v1/threats/feed` | GET | $0.10 | Latest threat indicators feed |
-| `/api/v1/cves/{cve_id}` | GET | $0.25 | CVE risk analysis |
-| `/api/v1/cves/recent` | GET | $0.10 | Recent critical CVEs |
-| `/api/v1/cves/search?keyword=` | GET | $0.10 | Search CVEs by keyword |
-| `/health` | GET | Free | Health check (DB connectivity) |
-| `/info` | GET | Free | API info and pricing |
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/v1/threats/lookup?domain=` | GET | Domain threat risk lookup — real-time phishing detection |
+| `/api/v1/threats/ip?ip=` | GET | IP reputation check — C2 and botnet detection |
+| `/api/v1/threats/feed` | GET | Latest threat indicators feed |
+| `/api/v1/cves/{cve_id}` | GET | CVE risk analysis with exploit probability |
+| `/api/v1/cves/recent` | GET | Recent critical CVEs from NVD |
+| `/api/v1/cves/search?keyword=` | GET | Search CVEs by keyword |
+| `/health` | GET | Health check |
+| `/info` | GET | API info and endpoints |
+
+All endpoints are free for the first 1,000 requests. No signup required.
 
 ---
 
