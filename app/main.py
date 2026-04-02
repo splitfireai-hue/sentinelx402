@@ -164,10 +164,11 @@ async def security_txt():
     return "Contact: https://github.com/splitfireai-hue/sentinelx402/issues\nPreferred-Languages: en\n"
 
 
+@app.get("/", include_in_schema=False)
 @app.get("/api", include_in_schema=False)
 @app.get("/api/v1", include_in_schema=False)
 async def api_root():
-    return {"message": "SentinelX402 API v1", "docs": "/docs", "info": "/info"}
+    return {"name": "SentinelX402", "tagline": "Detect malicious domains and IPs in under 300ms", "docs": "/docs", "info": "/info", "health": "/health"}
 
 
 @app.get("/.well-known/mcp", include_in_schema=False)
