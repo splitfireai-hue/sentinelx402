@@ -11,7 +11,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
 from app.database import get_db
-from app.metrics import metrics
+from app.metrics import (
+    flush_metrics_to_db,
+    get_db_hourly,
+    get_db_recent_errors,
+    get_db_recent_logs,
+    get_db_summary,
+    metrics,
+)
 from app.models.threat import ThreatIndicator
 from app.models.usage import UsageRecord
 from app.services.threat_feeds import get_cache as get_feed_cache
@@ -34,10 +41,13 @@ async def admin_dashboard(
     _auth=Depends(_require_admin),
 ):
     """Full admin dashboard UI."""
-    summary = metrics.get_summary()
-    hourly = metrics.get_hourly_traffic()
-    recent = metrics.get_recent_logs(limit=30)
-    errors = metrics.get_recent_errors(limit=15)
+    # Flush any pending metrics first
+    await flush_metrics_to_db(db)
+
+    summary = await get_db_summary(db)
+    hourly = await get_db_hourly(db)
+    recent = await get_db_recent_logs(db, limit=30)
+    errors = await get_db_recent_errors(db, limit=15)
     feed_cache = get_feed_cache()
 
     # DB stats
@@ -294,15 +304,17 @@ tr:hover{{background:#1a1a1a}}
 
 
 @router.get("/admin/api/metrics")
-async def admin_metrics(_auth=Depends(_require_admin)):
-    """Raw metrics JSON for programmatic access."""
-    return metrics.get_summary()
+async def admin_metrics(db: AsyncSession = Depends(get_db), _auth=Depends(_require_admin)):
+    """Raw metrics JSON from database (persistent)."""
+    await flush_metrics_to_db(db)
+    return await get_db_summary(db)
 
 
 @router.get("/admin/api/logs")
 async def admin_logs(
     limit: int = Query(50, ge=1, le=200),
+    db: AsyncSession = Depends(get_db),
     _auth=Depends(_require_admin),
 ):
-    """Recent request logs."""
-    return metrics.get_recent_logs(limit=limit)
+    """Recent request logs from database (persistent)."""
+    return await get_db_recent_logs(db, limit=limit)

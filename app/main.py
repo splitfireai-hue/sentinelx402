@@ -12,7 +12,7 @@ from slowapi.errors import RateLimitExceeded
 
 from app.cache import close_redis, init_redis
 from app.config import settings, setup_logging
-from app.database import engine
+from app.database import async_session, engine
 from app.metrics import metrics
 from app.models import Base
 from app.routers import admin, cve_intelligence, health, threat_feed
@@ -43,6 +43,15 @@ async def lifespan(app: FastAPI):
         logger.warning("Threat feed initial load failed (will retry on first request): %s", e)
 
     yield
+
+    # Flush remaining metrics to DB
+    try:
+        from app.metrics import flush_metrics_to_db
+        async with async_session() as db:
+            flushed = await flush_metrics_to_db(db)
+            logger.info("Flushed %d metrics to DB on shutdown", flushed)
+    except Exception:
+        pass
 
     await close_redis()
     logger.info("SentinelX402 shutdown complete")
@@ -102,6 +111,14 @@ async def security_and_logging_middleware(request: Request, call_next):
             status_code=response.status_code,
             duration_ms=duration_ms,
         )
+        # Flush to DB every 10 requests
+        if metrics._session_requests % 10 == 0:
+            try:
+                from app.metrics import flush_metrics_to_db
+                async with async_session() as db:
+                    await flush_metrics_to_db(db)
+            except Exception:
+                pass
     logger.info(
         "%s %s %d %.1fms",
         request.method,
