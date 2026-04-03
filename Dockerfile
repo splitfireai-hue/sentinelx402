@@ -5,7 +5,7 @@ RUN pip install --no-cache-dir --upgrade pip
 
 COPY pyproject.toml .
 RUN pip install --no-cache-dir --prefix=/install . && \
-    pip install --no-cache-dir --prefix=/install gunicorn greenlet && \
+    pip install --no-cache-dir --prefix=/install gunicorn greenlet asyncpg && \
     pip install --no-cache-dir --prefix=/install "x402[fastapi,evm]" || true
 
 FROM python:3.11-slim
@@ -17,10 +17,7 @@ COPY . .
 # Remove dev files from image
 RUN rm -rf tests/ .env .env.example .gitignore alembic/ docker-compose.dev.yml sdk/
 
-# Writable data directory for SQLite
-RUN mkdir -p /app/data && chmod 777 /app/data
-
-# Defaults (Railway can override via env vars)
+# Defaults (Railway overrides DATABASE_URL with PostgreSQL)
 ENV PORT=8000
 ENV DATABASE_URL=sqlite+aiosqlite:////app/data/sentinelx402.db
 ENV ENVIRONMENT=production
