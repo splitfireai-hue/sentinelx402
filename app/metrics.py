@@ -205,10 +205,14 @@ async def get_db_summary(db: AsyncSession) -> dict:
     )
     first_request = first_q.scalar_one()
 
+    uptime = metrics.uptime_seconds
+    rpm = (total_requests / uptime * 60) if uptime > 0 else 0
+
     return {
-        "uptime_seconds": round(metrics.uptime_seconds),
+        "uptime_seconds": round(uptime),
         "tracking_since": first_request.isoformat() if first_request else None,
         "total_requests": total_requests,
+        "requests_per_minute": round(rpm, 2),
         "error_rate_percent": round(error_rate, 2),
         "status_codes": status_codes,
         "endpoints": endpoint_stats,
