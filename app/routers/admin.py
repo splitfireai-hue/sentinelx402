@@ -318,3 +318,18 @@ async def admin_logs(
 ):
     """Recent request logs from database (persistent)."""
     return await get_db_recent_logs(db, limit=limit)
+
+
+@router.get("/admin/api/debug")
+async def admin_debug(db: AsyncSession = Depends(get_db), _auth=Depends(_require_admin)):
+    """Debug endpoint — shows raw error if dashboard crashes."""
+    import traceback
+    try:
+        await flush_metrics_to_db(db)
+        summary = await get_db_summary(db)
+        hourly = await get_db_hourly(db)
+        recent = await get_db_recent_logs(db, limit=5)
+        errors = await get_db_recent_errors(db, limit=5)
+        return {"status": "ok", "summary_keys": list(summary.keys()), "hourly_count": len(hourly), "recent_count": len(recent), "error_count": len(errors)}
+    except Exception as e:
+        return {"status": "error", "error": str(e), "traceback": traceback.format_exc()}
