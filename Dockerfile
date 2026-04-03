@@ -28,4 +28,4 @@ ENV FREE_TIER_ENABLED=true
 ENV FREE_TIER_REQUESTS=1000
 ENV ADMIN_SECRET=""
 
-CMD python -m app.data.seed_threats && python -m gunicorn app.main:app --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --workers 2 --timeout 60 --access-logfile - --error-logfile -
+CMD python -m app.data.seed_threats || echo "Seed skipped (data may already exist)" ; python -m gunicorn app.main:app --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --workers 2 --timeout 60 --access-logfile - --error-logfile -
