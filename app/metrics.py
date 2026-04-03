@@ -15,7 +15,7 @@ from datetime import datetime
 from threading import Lock
 from typing import Dict, List, Optional
 
-from sqlalchemy import desc, func, select, text
+from sqlalchemy import case, desc, func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
@@ -173,7 +173,7 @@ async def get_db_summary(db: AsyncSession) -> dict:
         select(
             RequestMetric.path,
             func.count(RequestMetric.id),
-            func.sum(func.case((RequestMetric.status_code >= 400, 1), else_=0)),
+            func.sum(case((RequestMetric.status_code >= 400, 1), else_=0)),
             func.avg(RequestMetric.duration_ms),
         )
         .group_by(RequestMetric.path)
