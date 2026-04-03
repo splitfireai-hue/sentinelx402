@@ -236,6 +236,32 @@ async def api_root():
     return {"name": "SentinelX402", "docs": "/docs", "info": "/info"}
 
 
+@app.get("/.well-known/ai-plugin.json", include_in_schema=False)
+async def ai_plugin():
+    return {
+        "schema_version": "v1",
+        "name_for_human": "SentinelX402",
+        "name_for_model": "sentinelx402",
+        "description_for_human": "Free threat intelligence API — phishing detection, CVE analysis, IP reputation",
+        "description_for_model": "Check domains for phishing, IPs for C2/botnets, and CVEs for exploit risk. 22K+ live indicators.",
+        "api": {"type": "openapi", "url": "https://sentinelx402-production.up.railway.app/openapi.json"},
+        "logo_url": "",
+        "contact_email": "",
+        "legal_info_url": "",
+    }
+
+
+@app.get("/.well-known/dnt-policy.txt", response_class=PlainTextResponse, include_in_schema=False)
+@app.get("/.well-known/gpc.json", response_class=PlainTextResponse, include_in_schema=False)
+@app.get("/.well-known/openid-configuration", response_class=PlainTextResponse, include_in_schema=False)
+@app.get("/.well-known/trust.txt", response_class=PlainTextResponse, include_in_schema=False)
+@app.get("/ads.txt", response_class=PlainTextResponse, include_in_schema=False)
+@app.get("/atom.xml", response_class=PlainTextResponse, include_in_schema=False)
+@app.get("/feed.xml", response_class=PlainTextResponse, include_in_schema=False)
+async def empty_well_known():
+    return ""
+
+
 @app.get("/.well-known/mcp", include_in_schema=False)
 async def well_known_mcp():
     return {
