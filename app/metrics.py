@@ -15,7 +15,7 @@ from datetime import datetime
 from threading import Lock
 from typing import Dict, List, Optional
 
-from sqlalchemy import case, desc, func, select, text
+from sqlalchemy import desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
@@ -173,11 +173,18 @@ async def get_db_summary(db: AsyncSession) -> dict:
         select(
             RequestMetric.path,
             func.count(RequestMetric.id),
-            func.sum(case((RequestMetric.status_code >= 400, 1), else_=0)),
             func.avg(RequestMetric.duration_ms),
         )
         .group_by(RequestMetric.path)
     )
+    # Error counts per endpoint
+    error_q = await db.execute(
+        select(RequestMetric.path, func.count(RequestMetric.id))
+        .where(RequestMetric.status_code >= 400)
+        .group_by(RequestMetric.path)
+    )
+    error_counts = {row[0]: row[1] for row in error_q.all()}
+
     endpoint_stats = {}
     latency_stats = metrics.get_latency_stats()
     for row in endpoint_q.all():
@@ -185,8 +192,8 @@ async def get_db_summary(db: AsyncSession) -> dict:
         mem_stats = latency_stats.get(path, {})
         endpoint_stats[path] = {
             "calls": row[1],
-            "errors": row[2] or 0,
-            "avg_ms": round(row[3], 1) if row[3] else 0,
+            "errors": error_counts.get(path, 0),
+            "avg_ms": round(row[2], 1) if row[2] else 0,
             "p50_ms": mem_stats.get("p50_ms", 0),
             "p95_ms": mem_stats.get("p95_ms", 0),
             "max_ms": mem_stats.get("max_ms", 0),
