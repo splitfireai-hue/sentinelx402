@@ -37,3 +37,7 @@ Thumbs.db
 agents/*.json
 agents/latest_*.md
 agents/marketing_output/
+
+# Proprietary data — never commit
+app/data/india_advisories.json
+app/data/india_threats.json
