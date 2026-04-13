@@ -1,0 +1,777 @@
+{
+  "scraped_at": "2026-04-13T09:14:27.444102",
+  "duration_seconds": 20.71,
+  "cert_in_advisories": [
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0015",
+      "title": "&nbsp;&nbsp;&nbsp; (March 26, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0015",
+      "published_date": "March 26, 2026",
+      "severity": "High",
+      "description": "Multiple vulnerabilities have been reported in Apple products:",
+      "affected_software": [],
+      "cve_refs": [],
+      "extracted_domains": [
+        "docprint.focus",
+        "window.status",
+        "docprint.document.open",
+        "str.replace",
+        "docprint.document.close",
+        "document.onmouseover",
+        "document.getelementbyid",
+        "event.mouseover",
+        "event.mouseout",
+        "document.onmouseout",
+        "window.location.href",
+        "docprint.document.write",
+        "window.open",
+        "link.please",
+        "document.captureevents",
+        "document.layers",
+        "support.apple.com"
+      ],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.769734"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0014",
+      "title": "&nbsp;&nbsp;&nbsp; (March 25, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0014",
+      "published_date": "March 25, 2026",
+      "severity": "High",
+      "description": "Multiple vulnerabilities have been reported in Microsoft Products, which could allow an attacker to execute remote code, gain elevated privileges, perform Server-side request forgery (SSRF) attacks and potentially view sensitive information on the targeted system. For complete list of affected products, CVEs, workarounds and",
+      "affected_software": [
+        "Azure DevOps: msazure Azure Data Factory Microsoft 365 Copilot Microsoft Bing Microsoft Copilot Microsoft 365 Copilot's Business Chat Microsoft Purview Azure Cloud Shell Microsoft Bing Images"
+      ],
+      "cve_refs": [
+        "CVE-2026-26136",
+        "CVE-2026-26138",
+        "CVE-2026-26139",
+        "CVE-2026-32169",
+        "CVE-2026-23659",
+        "CVE-2026-32194",
+        "CVE-2026-26120",
+        "CVE-2026-23658",
+        "CVE-2026-26137",
+        "CVE-2026-32191",
+        "CVE-2026-24299"
+      ],
+      "extracted_domains": [
+        "docprint.focus",
+        "window.status",
+        "str.replace",
+        "docprint.document.close",
+        "document.onmouseover",
+        "document.getelementbyid",
+        "event.mouseover",
+        "event.mouseout",
+        "document.onmouseout",
+        "window.location.href",
+        "docprint.document.write",
+        "window.open",
+        "link.please",
+        "document.captureevents",
+        "msrc.microsoft.com",
+        "document.layers",
+        "docprint.document.open"
+      ],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.769798"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0013",
+      "title": "&nbsp;&nbsp;&nbsp; (March 12, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0013",
+      "published_date": "March 12, 2026",
+      "severity": "High",
+      "description": "Multiple vulnerabilities have been reported in Intel Products, which could allow an attacker to gain elevated privileges and obtain sensitive information on the targeted system. For a complete list of affected products, CVEs, workarounds and",
+      "affected_software": [],
+      "cve_refs": [],
+      "extracted_domains": [
+        "document.onmouseover",
+        "window.open",
+        "event.mouseout",
+        "docprint.document.write",
+        "docprint.document.close",
+        "window.location.href",
+        "intel-sa-01393.html",
+        "link.please",
+        "document.captureevents",
+        "docprint.document.open",
+        "window.status",
+        "event.mouseover",
+        "document.onmouseout",
+        "document.layers",
+        "docprint.focus",
+        "str.replace",
+        "document.getelementbyid",
+        "intel-sa-01234.html",
+        "www.intel.com"
+      ],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.769853"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0012",
+      "title": "&nbsp;&nbsp;&nbsp; (March 11, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0012",
+      "published_date": "March 11, 2026",
+      "severity": "Critical",
+      "description": "Multiple vulnerabilities have been reported in SAP products; Details of which are provided below:",
+      "affected_software": [],
+      "cve_refs": [
+        "CVE-2026-24309",
+        "CVE-2019-17571",
+        "CVE-2026-24317",
+        "CVE-2026-27685",
+        "CVE-2026-0489",
+        "CVE-2026-27684",
+        "CVE-2026-24311",
+        "CVE-2026-24310",
+        "CVE-2026-24313",
+        "CVE-2026-27687",
+        "CVE-2025-9230",
+        "CVE-2025-9232",
+        "CVE-2026-27686",
+        "CVE-2026-27688",
+        "CVE-2026-24316",
+        "CVE-2026-27689"
+      ],
+      "extracted_domains": [
+        "docprint.focus",
+        "window.status",
+        "str.replace",
+        "window.open",
+        "document.onmouseover",
+        "document.getelementbyid",
+        "docprint.document.close",
+        "event.mouseover",
+        "event.mouseout",
+        "document.onmouseout",
+        "support.sap.com",
+        "window.location.href",
+        "docprint.document.write",
+        "march-2026.html",
+        "link.please",
+        "document.captureevents",
+        "document.layers",
+        "docprint.document.open"
+      ],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.769907"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0011",
+      "title": "&nbsp;&nbsp;&nbsp; (March 11, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0011",
+      "published_date": "March 11, 2026",
+      "severity": "High",
+      "description": "Multiple vulnerabilities have been reported in Microsoft Products, which could allow an attacker to gain elevated privileges, obtain sensitive information, conduct remote code execution attacks, bypass security restrictions, conduct spoofing attacks, or cause denial of service conditions. For complete list of affected products, CVEs, workarounds and",
+      "affected_software": [
+        "Microsoft Windows Microsoft Office Developer Tools SQL Server System Center Extended Security Updates (ESU) for legacy Microsoft products Apps Azure Open Source Software"
+      ],
+      "cve_refs": [],
+      "extracted_domains": [
+        "docprint.focus",
+        "window.status",
+        "str.replace",
+        "docprint.document.close",
+        "document.onmouseover",
+        "document.getelementbyid",
+        "event.mouseover",
+        "event.mouseout",
+        "document.onmouseout",
+        "window.location.href",
+        "docprint.document.write",
+        "window.open",
+        "link.please",
+        "document.captureevents",
+        "msrc.microsoft.com",
+        "document.layers",
+        "docprint.document.open"
+      ],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.769961"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0010",
+      "title": "&nbsp;&nbsp;&nbsp; (March 09, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0010",
+      "published_date": "March 09, 2026",
+      "severity": "Critical",
+      "description": "Multiple vulnerabilities have been reported in Microsoft Products due to improper access control and insufficient validation of certain operations. A remote attacker could exploit these vulnerabilities by sending specially crafted requests or leveraging authorized access to vulnerable components. Successful exploitation of these vulnerabilities could allow an attacker to gain elevated privileges, obtain sensitive information and conduct remote code execution attacks on the targeted system.",
+      "affected_software": [
+        "Microsoft ACI Confidential Containers Microsoft Payment Orchestrator Service Microsoft Azure Compute Gallery Microsoft Devices Pricing Program"
+      ],
+      "cve_refs": [
+        "CVE-2026-26122",
+        "CVE-2026-26125",
+        "CVE-2026-21536",
+        "CVE-2026-26124",
+        "CVE-2026-23651"
+      ],
+      "extracted_domains": [
+        "docprint.focus",
+        "window.status",
+        "str.replace",
+        "docprint.document.close",
+        "document.onmouseover",
+        "document.getelementbyid",
+        "event.mouseover",
+        "event.mouseout",
+        "document.onmouseout",
+        "window.location.href",
+        "docprint.document.write",
+        "window.open",
+        "link.please",
+        "document.captureevents",
+        "msrc.microsoft.com",
+        "document.layers",
+        "docprint.document.open"
+      ],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.770019"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0009",
+      "title": "&nbsp;&nbsp;&nbsp; (February 23, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0009",
+      "published_date": "February 23, 2026",
+      "severity": "High",
+      "description": "Multiple vulnerabilities have been reported in various Atlassian Products:",
+      "affected_software": [
+        "Bamboo Data Center and Server Confluence Data Center and Server Crowd Data Center and Server"
+      ],
+      "cve_refs": [
+        "CVE-2025-66021",
+        "CVE-2025-41249",
+        "CVE-2024-57669",
+        "CVE-2025-9288",
+        "CVE-2025-9287",
+        "CVE-2022-25883",
+        "CVE-2019-20149",
+        "CVE-2025-59343",
+        "CVE-2025-66675",
+        "CVE-2020-28469",
+        "CVE-2025-66516",
+        "CVE-2025-48734",
+        "CVE-2025-48976",
+        "CVE-2022-25927"
+      ],
+      "extracted_domains": [
+        "document.onmouseover",
+        "window.open",
+        "event.mouseout",
+        "docprint.document.write",
+        "docprint.document.close",
+        "window.location.href",
+        "link.please",
+        "document.captureevents",
+        "docprint.document.open",
+        "window.status",
+        "event.mouseover",
+        "security-bulletin-february-17-2026-1722256046.html",
+        "confluence.atlassian.com",
+        "document.onmouseout",
+        "document.layers",
+        "docprint.focus",
+        "www.atlassian.com",
+        "str.replace",
+        "document.getelementbyid"
+      ],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.770075"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0008",
+      "title": "&nbsp;&nbsp;&nbsp; (February 17, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0008",
+      "published_date": "February 17, 2026",
+      "severity": "High",
+      "description": "Multiple vulnerabilities have been identified in certain Intel\u00ae products. These vulnerabilities could allow an attacker to gain elevated privileges, access sensitive information, or cause denial-of-service conditions on the affected systems. For a complete list of affected products, CVEs, workarounds and",
+      "affected_software": [],
+      "cve_refs": [],
+      "extracted_domains": [
+        "intel-sa-01315.html",
+        "document.onmouseover",
+        "intel-sa-01325.html",
+        "window.open",
+        "event.mouseout",
+        "docprint.document.write",
+        "docprint.document.close",
+        "window.location.href",
+        "intel-sa-01406.html",
+        "link.please",
+        "document.captureevents",
+        "intel-sa-01401.html",
+        "docprint.document.open",
+        "window.status",
+        "event.mouseover",
+        "intel-sa-01397.html",
+        "document.onmouseout",
+        "document.layers",
+        "docprint.focus",
+        "str.replace"
+      ],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.770133"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0007",
+      "title": "&nbsp;&nbsp;&nbsp; (February 13, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0007",
+      "published_date": "February 13, 2026",
+      "severity": "High",
+      "description": "Multiple vulnerabilities have been reported in Apple products: A memory corruption vulnerability ( CVE-2026-20700 ) exists in Apple's Dynamic Link Editor (dyld) that could allow an attacker with memory write capabilities to execute arbitrary code on affected devices. Note: This vulnerability ( CVE-2026-20700 ) is being exploited in the wild. Users are advised to apply patches immediately.",
+      "affected_software": [],
+      "cve_refs": [
+        "CVE-2026-20700"
+      ],
+      "extracted_domains": [
+        "docprint.focus",
+        "window.status",
+        "docprint.document.open",
+        "str.replace",
+        "docprint.document.close",
+        "document.onmouseover",
+        "document.getelementbyid",
+        "event.mouseover",
+        "event.mouseout",
+        "document.onmouseout",
+        "window.location.href",
+        "docprint.document.write",
+        "window.open",
+        "link.please",
+        "document.captureevents",
+        "document.layers",
+        "support.apple.com"
+      ],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.770191"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0006",
+      "title": "&nbsp;&nbsp;&nbsp; (February 12, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0006",
+      "published_date": "February 12, 2026",
+      "severity": "High",
+      "description": "Multiple vulnerabilities have been reported in SAP products; Details of which are provided below:",
+      "affected_software": [],
+      "cve_refs": [],
+      "extracted_domains": [
+        "docprint.focus",
+        "window.status",
+        "str.replace",
+        "docprint.document.close",
+        "document.onmouseover",
+        "february-2026.html",
+        "document.getelementbyid",
+        "event.mouseover",
+        "event.mouseout",
+        "document.onmouseout",
+        "support.sap.com",
+        "window.location.href",
+        "docprint.document.write",
+        "window.open",
+        "link.please",
+        "document.captureevents",
+        "document.layers",
+        "docprint.document.open"
+      ],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.770251"
+    }
+  ],
+  "cert_in_list_only": [
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0005",
+      "title": "&nbsp;&nbsp;&nbsp; (February 11, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0005",
+      "published_date": "February 11, 2026",
+      "severity": null,
+      "description": "",
+      "affected_software": [],
+      "cve_refs": [],
+      "extracted_domains": [],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.770312"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0004",
+      "title": "&nbsp;&nbsp;&nbsp; (January 27, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0004",
+      "published_date": "January 27, 2026",
+      "severity": null,
+      "description": "",
+      "affected_software": [],
+      "cve_refs": [],
+      "extracted_domains": [],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.770376"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0003",
+      "title": "&nbsp;&nbsp;&nbsp; (January 23, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0003",
+      "published_date": "January 23, 2026",
+      "severity": null,
+      "description": "",
+      "affected_software": [],
+      "cve_refs": [],
+      "extracted_domains": [],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.770440"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0002",
+      "title": "&nbsp;&nbsp;&nbsp; (January 14, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0002",
+      "published_date": "January 14, 2026",
+      "severity": null,
+      "description": "",
+      "affected_software": [],
+      "cve_refs": [],
+      "extracted_domains": [],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.770506"
+    },
+    {
+      "source": "cert-in",
+      "code": "CIAD-2026-0001",
+      "title": "&nbsp;&nbsp;&nbsp; (January 13, 2026) </",
+      "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0001",
+      "published_date": "January 13, 2026",
+      "severity": null,
+      "description": "",
+      "affected_software": [],
+      "cve_refs": [],
+      "extracted_domains": [],
+      "extracted_ips": [],
+      "scraped_at": "2026-04-13T09:14:07.770573"
+    }
+  ],
+  "csk_alerts": [
+    {
+      "name": "Remcos RAT",
+      "url": "https://www.csk.gov.in/alerts/Remcos_RAT.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443117"
+    },
+    {
+      "name": "SpyMax Android Malware",
+      "url": "https://www.csk.gov.in/alerts/SpyMax_android_malware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443129"
+    },
+    {
+      "name": "Latrodectus Malware",
+      "url": "https://www.csk.gov.in/alerts/Latrodectus_Malware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443134"
+    },
+    {
+      "name": "Lumma Infostealer",
+      "url": "https://www.csk.gov.in/alerts/Lumma_infostealer.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443140"
+    },
+    {
+      "name": "Bumblebee Malware",
+      "url": "https://www.csk.gov.in/alerts/Bumblebee_malware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443145"
+    },
+    {
+      "name": "RansomHub Ransomware",
+      "url": "https://www.csk.gov.in/alerts/RansomHub_Ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443149"
+    },
+    {
+      "name": "Makop Ransomware",
+      "url": "https://www.csk.gov.in/alerts/Makop_Ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443153"
+    },
+    {
+      "name": "Advisory: Info-Stealer Malware - Threat And Mitigations",
+      "url": "https://www.csk.gov.in/alerts/Advisory_Infostealer.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443159"
+    },
+    {
+      "name": "Ramnit Banking Trojan",
+      "url": "https://www.csk.gov.in/alerts/Ramnit_Banking_Trojan.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443167"
+    },
+    {
+      "name": "NoEscape ransomware",
+      "url": "https://www.csk.gov.in/alerts/NoEscape_ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443171"
+    },
+    {
+      "name": "LuaDream Malware",
+      "url": "https://www.csk.gov.in/alerts/LuaDream_Malware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443176"
+    },
+    {
+      "name": "Monti ransomware",
+      "url": "https://www.csk.gov.in/alerts/Monti_ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443179"
+    },
+    {
+      "name": "Raccoon Infostealer Malware",
+      "url": "https://www.csk.gov.in/alerts/Raccoon_stealer.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443183"
+    },
+    {
+      "name": "Nitrogen Malware",
+      "url": "https://www.csk.gov.in/alerts/Nitrogen_malware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443187"
+    },
+    {
+      "name": "SupremeBot Malware",
+      "url": "https://www.csk.gov.in/alerts/SupremeBot_malware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443192"
+    },
+    {
+      "name": "GravityRat Android Malware",
+      "url": "https://www.csk.gov.in/alerts/GravityRat_android_malware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443196"
+    },
+    {
+      "name": "Shampoo ChromeLoader Malware",
+      "url": "https://www.csk.gov.in/alerts/Shampoo_ChromeLoader.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443201"
+    },
+    {
+      "name": "QakBot Trojan",
+      "url": "https://www.csk.gov.in/alerts/QakBot_Trojan.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443204"
+    },
+    {
+      "name": "Mallox ransomware",
+      "url": "https://www.csk.gov.in/alerts/Mallox_ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443208"
+    },
+    {
+      "name": "Akira ransomware",
+      "url": "https://www.csk.gov.in/alerts/Akira_ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443212"
+    },
+    {
+      "name": "Bl00dy ransomware",
+      "url": "https://www.csk.gov.in/alerts/Bl00dy_ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443215"
+    },
+    {
+      "name": "Trigona ransomware",
+      "url": "https://www.csk.gov.in/alerts/Trigona_ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443219"
+    },
+    {
+      "name": "Daam Android Botnet",
+      "url": "https://www.csk.gov.in/alerts/Daam_android_botnet.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443223"
+    },
+    {
+      "name": "RedLine info-stealer malware",
+      "url": "https://www.csk.gov.in/alerts/RedLine_infostealer_malware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443227"
+    },
+    {
+      "name": "RTM Locker ransomware",
+      "url": "https://www.csk.gov.in/alerts/RTM_Locker_ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443231"
+    },
+    {
+      "name": "Vipersoftx Malware",
+      "url": "https://www.csk.gov.in/alerts/Vipersoftx.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443236"
+    },
+    {
+      "name": "Royal ransomware",
+      "url": "https://www.csk.gov.in/alerts/Royal_ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443239"
+    },
+    {
+      "name": "Goldoson Android Malware",
+      "url": "https://www.csk.gov.in/alerts/Goldoson.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443244"
+    },
+    {
+      "name": "Nexus Android Banking Trojan",
+      "url": "https://www.csk.gov.in/alerts/Nexus.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443248"
+    },
+    {
+      "name": "India Ransomware Report-2022",
+      "url": "https://www.csk.gov.in/alerts/IndiaRansomwareReport2022.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443252"
+    },
+    {
+      "name": "FormBook Infostealer Malware",
+      "url": "https://www.csk.gov.in/alerts/FormBook_infostealer.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443256"
+    },
+    {
+      "name": "\"MalVirt\" Malware Loader",
+      "url": "https://www.csk.gov.in/alerts/MalVirt-loader.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443260"
+    },
+    {
+      "name": "Vidar Malware",
+      "url": "https://www.csk.gov.in/alerts/Vidar_malware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443265"
+    },
+    {
+      "name": "Panchan Botnet",
+      "url": "https://www.csk.gov.in/alerts/Panchan_Botnet.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443271"
+    },
+    {
+      "name": "BlackCat Ransomware",
+      "url": "https://www.csk.gov.in/alerts/BlackCat_ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443275"
+    },
+    {
+      "name": "SOVA Android Trojan",
+      "url": "https://www.csk.gov.in/alerts/SOVA.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443278"
+    },
+    {
+      "name": "India Ransomware Report (H1-2022)",
+      "url": "https://www.csk.gov.in/alerts/IndiaRansomwareReport-H1-2022.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443282"
+    },
+    {
+      "name": "Ransomware Advisory",
+      "url": "https://www.csk.gov.in/alerts/ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443286"
+    },
+    {
+      "name": "Autolycos Malware",
+      "url": "https://www.csk.gov.in/alerts/Autolycos_Malware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443290"
+    },
+    {
+      "name": "Black Basta Ransomware",
+      "url": "https://www.csk.gov.in/alerts/BlackBasta_ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443295"
+    },
+    {
+      "name": "Hive Ransomware",
+      "url": "https://www.csk.gov.in/alerts/hive_ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443299"
+    },
+    {
+      "name": "Escobar Android Malware",
+      "url": "https://www.csk.gov.in/alerts/Escobar.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443305"
+    },
+    {
+      "name": "LockBit 2.0 Ransomware",
+      "url": "https://www.csk.gov.in/alerts/LockBit_2.0_Ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443309"
+    },
+    {
+      "name": "BotenaGo malware",
+      "url": "https://www.csk.gov.in/alerts/BotenaGo.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443315"
+    },
+    {
+      "name": "REvil aka Sodinikibi Ransomware",
+      "url": "https://www.csk.gov.in/alerts/REvil_aka_Sodinikibi_Ransomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443319"
+    },
+    {
+      "name": "Siloscape Malware",
+      "url": "https://www.csk.gov.in/alerts/Siloscape.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443327"
+    },
+    {
+      "name": "Sarbloh Ransomware",
+      "url": "https://www.csk.gov.in/alerts/SarblohRansomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443332"
+    },
+    {
+      "name": "Adrozek Malware",
+      "url": "https://www.csk.gov.in/alerts/AdrozekMalware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443336"
+    },
+    {
+      "name": "Mozi IoT Botnet",
+      "url": "https://www.csk.gov.in/alerts/MoziIoTBotnet.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443345"
+    },
+    {
+      "name": "Egregor Ransomware",
+      "url": "https://www.csk.gov.in/alerts/EgregorRansomware.html",
+      "source": "csk",
+      "scraped_at": "2026-04-13T09:14:27.443349"
+    }
+  ],
+  "totals": {
+    "advisories_enriched": 10,
+    "advisories_listed": 15,
+    "csk_alerts": 50,
+    "total_cves": 47,
+    "total_domains": 179,
+    "total_ips": 0
+  }
+}

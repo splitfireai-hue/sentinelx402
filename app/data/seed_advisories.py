@@ -17,8 +17,10 @@ async def seed() -> None:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    # Read scraped data
-    data_file = Path(__file__).parent.parent.parent / "agents" / "india_advisories.json"
+    # Read scraped data — try app/data first (bundled with deploy), fall back to agents/
+    data_file = Path(__file__).parent / "india_advisories.json"
+    if not data_file.exists():
+        data_file = Path(__file__).parent.parent.parent / "agents" / "india_advisories.json"
     if not data_file.exists():
         print("No scraped data yet. Run: python -m agents.certin_scraper")
         return
