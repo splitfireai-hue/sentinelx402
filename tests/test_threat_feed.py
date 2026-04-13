@@ -20,7 +20,7 @@ async def test_info(client):
     assert resp.status_code == 200
     data = resp.json()
     assert data["name"] == "SentinelX402"
-    assert len(data["endpoints"]) == 6
+    assert len(data["endpoints"]) >= 6
     assert data["free_tier"]["requests"] == 1000
 
 

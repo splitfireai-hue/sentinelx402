@@ -75,6 +75,8 @@ async def info():
             {"path": "/api/v1/cves/{cve_id}", "method": "GET", "description": "CVE risk analysis with exploit probability"},
             {"path": "/api/v1/cves/recent", "method": "GET", "description": "Recent critical CVEs from NVD"},
             {"path": "/api/v1/cves/search", "method": "GET", "description": "Search CVEs by keyword"},
+            {"path": "/api/v1/india/advisories/list", "method": "GET", "description": "India threat advisories from CERT-In and CSK (proprietary)"},
+            {"path": "/api/v1/india/advisories/{code}", "method": "GET", "description": "Get specific CERT-In advisory by code"},
         ],
     }
 
