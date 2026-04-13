@@ -164,8 +164,8 @@ async def get_db_summary(db: AsyncSession) -> dict:
     )
     status_codes = {str(row[0]): row[1] for row in status_q.all()}
 
-    # Error rate
-    error_count = sum(c for s, c in status_codes.items() if int(s) >= 400)
+    # Error rate — exclude 405 (method not allowed) and 422 (validation) as not real errors
+    error_count = sum(c for s, c in status_codes.items() if int(s) >= 500 or (400 <= int(s) < 500 and int(s) not in (405, 422)))
     error_rate = (error_count / total_requests * 100) if total_requests > 0 else 0
 
     # Endpoint stats from DB
@@ -177,10 +177,11 @@ async def get_db_summary(db: AsyncSession) -> dict:
         )
         .group_by(RequestMetric.path)
     )
-    # Error counts per endpoint
+    # Error counts per endpoint — exclude 405/422 (not real errors)
     error_q = await db.execute(
         select(RequestMetric.path, func.count(RequestMetric.id))
         .where(RequestMetric.status_code >= 400)
+        .where(RequestMetric.status_code.notin_([405, 422]))
         .group_by(RequestMetric.path)
     )
     error_counts = {row[0]: row[1] for row in error_q.all()}
@@ -263,6 +264,7 @@ async def get_db_recent_errors(db: AsyncSession, limit: int = 20) -> list:
     result = await db.execute(
         select(RequestMetric)
         .where(RequestMetric.status_code >= 400)
+        .where(RequestMetric.status_code.notin_([405, 422]))
         .order_by(desc(RequestMetric.timestamp))
         .limit(limit)
     )
