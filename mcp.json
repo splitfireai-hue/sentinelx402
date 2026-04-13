@@ -1,28 +1,31 @@
 {
   "name": "SentinelX402",
-  "tagline": "Detect malicious domains and IPs in under 300ms with 95% confidence",
-  "description": "Free threat intelligence API for AI agents. Real-time phishing detection, CVE risk analysis, IP reputation. Powered by live feeds. 1,000 free requests, no signup required.",
+  "tagline": "Free threat intelligence API with built-in CERT-In India advisories",
+  "description": "The only agent-native threat intelligence API with proprietary Indian government threat data (CERT-In, CSK). Plus real-time phishing detection, CVE risk analysis, IP reputation. 1,000 free requests, no signup.",
   "category": "cybersecurity",
   "keywords": [
     "free threat intelligence API",
+    "CERT-In India advisories API",
+    "India cybersecurity API",
+    "UPI fraud detection",
+    "Indian bank phishing detection",
     "real-time phishing detection",
-    "domain risk scoring",
     "CVE risk intelligence for AI agents",
     "threat intelligence MCP server",
     "malicious domain reputation API",
-    "IP reputation API",
     "C2 botnet detection",
-    "IOC feed",
-    "security automation",
     "SOC automation API",
-    "phishing prevention"
+    "Indian fintech security"
   ],
   "data_sources": [
+    "CERT-In India (CIAD/CIVN advisories) — PROPRIETARY",
+    "CSK Cyber Swachhta Kendra (malware alerts) — PROPRIETARY",
+    "Indian bank phishing dataset — PROPRIETARY",
+    "UPI fraud domain dataset — PROPRIETARY",
     "OpenPhish (live phishing URLs)",
     "Feodo Tracker (C2 botnet IPs)",
     "URLhaus (malware distribution URLs)",
-    "NVD (CVE vulnerability data)",
-    "Proprietary heuristic scoring engine"
+    "NVD (CVE vulnerability data)"
   ],
   "tools": [
     {
@@ -33,35 +36,53 @@
     },
     {
       "name": "ip_reputation",
-      "description": "Check if an IP is a known C2 server, botnet node, or malicious host. Powered by Feodo Tracker live feed.",
+      "description": "Check if an IP is a known C2 server, botnet node, or malicious host.",
       "endpoint": "GET /api/v1/threats/ip?ip={ip}",
       "latency": "<300ms"
     },
     {
       "name": "threat_feed",
-      "description": "Get latest threat indicators (phishing domains, malicious IPs, malware hashes) with pagination.",
+      "description": "Get latest threat indicators with pagination.",
       "endpoint": "GET /api/v1/threats/feed"
     },
     {
       "name": "cve_risk_analysis",
-      "description": "CVE risk analysis with exploit probability, patch urgency, and ransomware risk. Goes beyond raw CVSS.",
+      "description": "CVE risk analysis with exploit probability, patch urgency, and ransomware risk.",
       "endpoint": "GET /api/v1/cves/{cve_id}"
     },
     {
       "name": "recent_critical_cves",
-      "description": "Recent critical CVEs from the last 7 days with enhanced risk analysis.",
+      "description": "Recent critical CVEs from the last 7 days.",
       "endpoint": "GET /api/v1/cves/recent"
     },
     {
       "name": "cve_search",
-      "description": "Search CVEs by keyword with exploit probability and patch urgency scoring.",
+      "description": "Search CVEs by keyword with enhanced risk scoring.",
       "endpoint": "GET /api/v1/cves/search?keyword={keyword}"
+    },
+    {
+      "name": "india_advisory_list",
+      "description": "List India-specific threat advisories from CERT-In (Indian Computer Emergency Response Team) and CSK (Cyber Swachhta Kendra). PROPRIETARY — only available in SentinelX402.",
+      "endpoint": "GET /api/v1/india/advisories/list",
+      "proprietary": true
+    },
+    {
+      "name": "india_advisory_detail",
+      "description": "Get specific CERT-In advisory by code (CIAD-YYYY-XXXX or CIVN-YYYY-XXXX). Includes CVE references, affected products, and extracted threat domains. PROPRIETARY.",
+      "endpoint": "GET /api/v1/india/advisories/{code}",
+      "proprietary": true
     }
   ],
   "free_tier": {
     "requests": 1000,
     "no_signup_required": true
   },
+  "differentiators": [
+    "Only agent-native API with CERT-In India advisories",
+    "Only API covering UPI fraud and Indian bank phishing",
+    "Drop-in integrations for LangChain, CrewAI, OpenAI, MCP",
+    "Zero friction — no signup, no API key"
+  ],
   "trust": {
     "target_latency": "<300ms",
     "confidence": ">=95% for known threats",

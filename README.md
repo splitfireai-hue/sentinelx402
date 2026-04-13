@@ -1,10 +1,28 @@
 # SentinelX402
 
-**Detect malicious domains and IPs in under 300ms with 95% confidence.**
+**Free threat intelligence API for AI agents. The only API with built-in CERT-In India advisories.**
 
-Free threat intelligence API for AI agents. Real-time phishing detection, CVE risk analysis, and IP reputation scoring. Powered by live threat feeds. 1,000 free requests — no signup, no API key.
+Real-time phishing detection, CVE risk analysis, IP reputation, and Indian government threat advisories — all free. 1,000 requests, no signup, no API key.
 
 **Live API:** https://sentinelx402-production.up.railway.app/info
+
+---
+
+## What Makes This Different
+
+Most threat intel APIs cover global threats. SentinelX402 is the **only agent-native API** that includes:
+
+- **CERT-In India advisories** — Official Indian government threat intel (CIAD/CIVN)
+- **CSK malware alerts** — Cyber Swachhta Kendra active threat monitoring
+- **UPI fraud detection** — Paytm, PhonePe, GPay spoofing domains
+- **Indian bank phishing** — SBI, HDFC, ICICI, Axis, Kotak impersonation
+- **Aadhaar/PAN scams** — Government impersonation phishing
+
+Plus standard coverage:
+- OpenPhish live phishing URLs
+- Feodo Tracker C2 botnet IPs
+- URLhaus malware distribution
+- NVD CVE data with exploit probability
 
 ---
 
@@ -144,6 +162,8 @@ gunicorn app.main:app \
 | `/api/v1/cves/{cve_id}` | GET | CVE risk analysis with exploit probability |
 | `/api/v1/cves/recent` | GET | Recent critical CVEs from NVD |
 | `/api/v1/cves/search?keyword=` | GET | Search CVEs by keyword |
+| **`/api/v1/india/advisories/list`** | GET | **CERT-In + CSK India advisories (proprietary)** |
+| **`/api/v1/india/advisories/{code}`** | GET | **Specific CERT-In advisory by code** |
 | `/health` | GET | Health check |
 | `/info` | GET | API info and endpoints |
 
@@ -187,11 +207,18 @@ print(resp.json())
 ### curl
 
 ```bash
-curl "http://localhost:8000/api/v1/threats/lookup?domain=suspicious-site.xyz"
-curl "http://localhost:8000/api/v1/threats/ip?ip=185.220.101.42"
-curl "http://localhost:8000/api/v1/threats/feed?page=1&page_size=10"
-curl "http://localhost:8000/api/v1/cves/CVE-2024-3400"
-curl "http://localhost:8000/api/v1/cves/recent?limit=5"
+# Global threat detection
+curl "https://sentinelx402-production.up.railway.app/api/v1/threats/lookup?domain=suspicious-site.xyz"
+curl "https://sentinelx402-production.up.railway.app/api/v1/threats/ip?ip=185.220.101.42"
+curl "https://sentinelx402-production.up.railway.app/api/v1/threats/feed?page=1&page_size=10"
+
+# CVE intelligence
+curl "https://sentinelx402-production.up.railway.app/api/v1/cves/CVE-2024-3400"
+curl "https://sentinelx402-production.up.railway.app/api/v1/cves/recent?limit=5"
+
+# INDIA-SPECIFIC (proprietary — only here)
+curl "https://sentinelx402-production.up.railway.app/api/v1/india/advisories/list?limit=5"
+curl "https://sentinelx402-production.up.railway.app/api/v1/india/advisories/CIAD-2026-0014"
 curl "http://localhost:8000/api/v1/cves/search?keyword=apache"
 ```
 

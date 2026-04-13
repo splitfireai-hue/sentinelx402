@@ -217,11 +217,11 @@ h1{font-size:36px;font-weight:700;margin-bottom:8px;background:linear-gradient(1
 <body>
 <div class="container">
 <h1>SentinelX402</h1>
-<p class="tagline">Detect malicious domains and IPs in under 300ms with 95% confidence</p>
+<p class="tagline">The only threat intelligence API with built-in CERT-In India advisories</p>
 
 <div class="stats">
 <div class="stat"><div class="num">22K+</div><div class="label">Live Indicators</div></div>
-<div class="stat"><div class="num">&lt;300ms</div><div class="label">Latency</div></div>
+<div class="stat"><div class="num">65+</div><div class="label">India Advisories</div></div>
 <div class="stat"><div class="num">FREE</div><div class="label">1,000 Requests</div></div>
 </div>
 
