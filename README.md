@@ -6,6 +6,12 @@ Real-time phishing detection, CVE risk analysis, IP reputation, and Indian gover
 
 **Live API:** https://sentinelx402-production.up.railway.app/info
 
+Part of the **Sentinel Series**:
+- **SentinelX402** (this) — Threat intelligence (phishing, CVE, IP reputation, CERT-In)
+- **[SentinelCorp](https://github.com/splitfireai-hue/sentinelcorp)** — India company risk (GSTIN/CIN/PAN validation, SEBI debarred entities)
+
+Use both together for complete India due-diligence coverage for AI agents.
+
 ---
 
 ## What Makes This Different

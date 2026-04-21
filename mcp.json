@@ -88,5 +88,12 @@
     "confidence": ">=95% for known threats",
     "live_feeds_refresh": "every 30 minutes",
     "stats_endpoint": "/stats"
-  }
+  },
+  "sibling_products": [
+    {
+      "name": "SentinelCorp",
+      "description": "India company risk profile API for AI agents. Validate GSTIN/CIN/PAN, check SEBI debarred entities, unified risk scoring.",
+      "github": "https://github.com/splitfireai-hue/sentinelcorp"
+    }
+  ]
 }

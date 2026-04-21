@@ -78,6 +78,14 @@ async def info():
             {"path": "/api/v1/india/advisories/list", "method": "GET", "description": "India threat advisories from CERT-In and CSK (proprietary)"},
             {"path": "/api/v1/india/advisories/{code}", "method": "GET", "description": "Get specific CERT-In advisory by code"},
         ],
+        "sibling_products": [
+            {
+                "name": "SentinelCorp",
+                "description": "India company risk profile API — validate GSTIN/CIN/PAN, check SEBI debarred entities, unified risk scoring",
+                "github": "https://github.com/splitfireai-hue/sentinelcorp",
+                "use_case": "Pair with SentinelX402 for complete India due-diligence (threats + company risk)",
+            },
+        ],
     }
 
 
