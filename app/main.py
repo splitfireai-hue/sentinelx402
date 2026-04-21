@@ -15,7 +15,7 @@ from app.config import settings, setup_logging
 from app.database import async_session, engine
 from app.metrics import metrics
 from app.models import Base
-from app.routers import admin, cve_intelligence, health, india_advisories, threat_feed
+from app.routers import admin, cve_intelligence, health, india_advisories, premium, threat_feed
 
 logger = logging.getLogger(__name__)
 
@@ -318,4 +318,9 @@ app.include_router(
     india_advisories.router,
     prefix="/api/v1/india/advisories",
     tags=["India Threat Advisories (Proprietary)"],
+)
+app.include_router(
+    premium.router,
+    prefix="/api/v1",
+    tags=["Premium (API Key)"],
 )

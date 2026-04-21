@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.config import settings
 from app.database import get_db
 from app.dependencies import check_free_tier
+from app.free_tier import get_client_id_from_request
 from app.schemas.threat import DomainRiskResponse, IPReputationResponse, ThreatFeedResponse
 from app.services import threat_service
 
@@ -49,7 +50,8 @@ async def domain_lookup(
 ):
     """Look up threat risk score for a domain."""
     domain = _validate_domain(domain)
-    return await threat_service.lookup_domain(domain, db)
+    client_id = get_client_id_from_request(request)
+    return await threat_service.lookup_domain(domain, db, client_id=client_id)
 
 
 @router.get("/ip", response_model=IPReputationResponse)
@@ -61,7 +63,8 @@ async def ip_reputation(
 ):
     """Check IP address reputation and threat associations."""
     ip = _validate_ip(ip)
-    return await threat_service.check_ip(ip, db)
+    client_id = get_client_id_from_request(request)
+    return await threat_service.check_ip(ip, db, client_id=client_id)
 
 
 @router.get("/feed", response_model=ThreatFeedResponse)
