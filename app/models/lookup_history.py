@@ -50,23 +50,3 @@ class Webhook(Base):
     active: Mapped[bool] = mapped_column(default=True)
 
 
-class APIKey(Base):
-    """Optional API keys — free tier stays open, but keyed clients get benefits.
-
-    Benefits:
-    - Higher rate limits
-    - Historical data access
-    - Webhook subscriptions
-    - Priority support
-    """
-    __tablename__ = "api_keys"
-
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    key: Mapped[str] = mapped_column(String(64), unique=True, index=True)
-    name: Mapped[str] = mapped_column(String(200))
-    tier: Mapped[str] = mapped_column(String(20), default="free")  # free, pro, enterprise
-    email: Mapped[str] = mapped_column(String(200), default="")
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    last_used: Mapped[datetime] = mapped_column(DateTime, nullable=True)
-    active: Mapped[bool] = mapped_column(default=True)
-    monthly_quota: Mapped[int] = mapped_column(default=10000)

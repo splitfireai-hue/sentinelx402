@@ -40,6 +40,11 @@ class Settings(BaseSettings):
     # Admin Dashboard
     ADMIN_SECRET: str = ""  # set in env to enable admin dashboard
 
+    # Shared billing (point at the same Postgres + same RAZORPAY/STRIPE creds as SentinelCorp)
+    BILLING_ENABLED: bool = False
+    BILLING_PRODUCT: str = "sentinelx402"
+    PUBLIC_BASE_URL: str = ""
+
     # Timeouts
     NVD_TIMEOUT_SECONDS: int = 15
 

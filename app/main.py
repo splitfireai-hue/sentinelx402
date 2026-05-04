@@ -14,10 +14,28 @@ from app.cache import close_redis, init_redis
 from app.config import settings, setup_logging
 from app.database import async_session, engine
 from app.metrics import metrics
+from app.middleware.auth import BillingAuthMiddleware
 from app.models import Base
-from app.routers import admin, cve_intelligence, health, india_advisories, premium, threat_feed
+from app.routers import admin, billing, cve_intelligence, health, india_advisories, threat_feed
 
 logger = logging.getLogger(__name__)
+
+
+async def _migrate_legacy_api_keys(conn) -> None:
+    """One-shot migration: legacy api_keys table stored raw keys. Drop it so the
+    shared billing schema can land. Safe — that table was never written to."""
+    from sqlalchemy import inspect, text
+
+    def _check(sync_conn):
+        insp = inspect(sync_conn)
+        if not insp.has_table("api_keys"):
+            return False
+        cols = {c["name"] for c in insp.get_columns("api_keys")}
+        return "key_hash" not in cols
+
+    if await conn.run_sync(_check):
+        logger.warning("Dropping legacy api_keys table to apply shared billing schema")
+        await conn.execute(text("DROP TABLE IF EXISTS api_keys"))
 
 
 @asynccontextmanager
@@ -27,6 +45,7 @@ async def lifespan(app: FastAPI):
 
     # Create tables
     async with engine.begin() as conn:
+        await _migrate_legacy_api_keys(conn)
         await conn.run_sync(Base.metadata.create_all)
     logger.info("Database tables ready")
 
@@ -79,6 +98,10 @@ app.add_middleware(
     allow_headers=["*"],
     max_age=86400,
 )
+
+# Shared billing: validates X-API-Key against the same Postgres table as
+# SentinelCorp. No-op when BILLING_ENABLED=false.
+app.add_middleware(BillingAuthMiddleware, product=settings.BILLING_PRODUCT)
 
 
 # Security headers + request logging
@@ -304,6 +327,7 @@ async def well_known_agent():
 # --- Routers ---
 app.include_router(admin.router)
 app.include_router(health.router)
+app.include_router(billing.router, tags=["Billing"])
 app.include_router(
     threat_feed.router,
     prefix="/api/v1/threats",
@@ -319,8 +343,6 @@ app.include_router(
     prefix="/api/v1/india/advisories",
     tags=["India Threat Advisories (Proprietary)"],
 )
-app.include_router(
-    premium.router,
-    prefix="/api/v1",
-    tags=["Premium (API Key)"],
-)
+# Premium key registration / webhook endpoints superseded by the shared billing
+# system in SentinelCorp. The legacy premium.py router remains in the repo as a
+# reference but is no longer wired into the app.
