@@ -34,8 +34,11 @@ async def _migrate_legacy_api_keys(conn) -> None:
         return "key_hash" not in cols
 
     if await conn.run_sync(_check):
-        logger.warning("Dropping legacy api_keys table to apply shared billing schema")
-        await conn.execute(text("DROP TABLE IF EXISTS api_keys"))
+        logger.warning("Dropping legacy api_keys + dependent billing tables to apply shared schema")
+        # CASCADE so any FK constraints from subscriptions / usage tables created
+        # in a half-completed prior boot are cleaned up. Safe — no paid data yet.
+        for table in ("subscriptions", "usage_counters", "anon_usage_counters", "api_keys"):
+            await conn.execute(text("DROP TABLE IF EXISTS {} CASCADE".format(table)))
 
 
 @asynccontextmanager
