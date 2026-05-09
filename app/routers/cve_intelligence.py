@@ -33,12 +33,16 @@ async def recent_cves(
 @limiter.limit(settings.CVE_RATE_LIMIT)
 async def search_cves(
     request: Request,
-    keyword: str = Query(..., min_length=2, max_length=200, description="Search keyword"),
+    keyword: str = Query(None, min_length=2, max_length=200, description="Search keyword"),
+    q: str = Query(None, min_length=2, max_length=200, description="Search keyword (alias for keyword)"),
     limit: int = Query(20, ge=1, le=100),
 ):
-    """Search CVEs by keyword with risk analysis."""
-    keyword = keyword.strip()
-    return await cve_service.search_cves(keyword, limit=limit)
+    """Search CVEs by keyword with risk analysis. Accepts ?keyword= or ?q=."""
+    term = (keyword or q or "").strip()
+    if not term:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=422, detail="Provide ?keyword= or ?q= (min 2 chars)")
+    return await cve_service.search_cves(term, limit=limit)
 
 
 @router.get("/{cve_id}", response_model=CVERiskResponse)
