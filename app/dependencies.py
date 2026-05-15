@@ -23,8 +23,8 @@ async def check_free_tier(request: Request, db: AsyncSession = Depends(get_db)) 
     try:
         remaining = await track_usage(client_id, db)
     except Exception:
-        logger.warning("Free tier tracking failed for %s, allowing request", client_id)
-        return
+        logger.exception("Free tier tracking failed for %s", client_id)
+        raise HTTPException(status_code=503, detail="Service temporarily unavailable")
 
     if remaining is None:
         raise HTTPException(

@@ -21,26 +21,6 @@ from app.routers import admin, billing, cve_intelligence, health, india_advisori
 logger = logging.getLogger(__name__)
 
 
-async def _migrate_legacy_api_keys(conn) -> None:
-    """One-shot migration: legacy api_keys table stored raw keys. Drop it so the
-    shared billing schema can land. Safe — that table was never written to."""
-    from sqlalchemy import inspect, text
-
-    def _check(sync_conn):
-        insp = inspect(sync_conn)
-        if not insp.has_table("api_keys"):
-            return False
-        cols = {c["name"] for c in insp.get_columns("api_keys")}
-        return "key_hash" not in cols
-
-    if await conn.run_sync(_check):
-        logger.warning("Dropping legacy api_keys + dependent billing tables to apply shared schema")
-        # CASCADE so any FK constraints from subscriptions / usage tables created
-        # in a half-completed prior boot are cleaned up. Safe — no paid data yet.
-        for table in ("subscriptions", "usage_counters", "anon_usage_counters", "api_keys"):
-            await conn.execute(text("DROP TABLE IF EXISTS {} CASCADE".format(table)))
-
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     setup_logging()
@@ -48,7 +28,6 @@ async def lifespan(app: FastAPI):
 
     # Create tables
     async with engine.begin() as conn:
-        await _migrate_legacy_api_keys(conn)
         await conn.run_sync(Base.metadata.create_all)
     logger.info("Database tables ready")
 
@@ -123,9 +102,16 @@ async def security_and_logging_middleware(request: Request, call_next):
     # Security headers
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
-    response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     response.headers["Cache-Control"] = "no-store"
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; "
+        "script-src 'self' 'unsafe-inline'; "
+        "style-src 'self' 'unsafe-inline'; "
+        "img-src 'self' data: https:; "
+        "connect-src 'self'; "
+        "base-uri 'self'; frame-ancestors 'none'"
+    )
 
     # Request logging + metrics (exclude admin paths)
     duration_ms = (time.time() - start) * 1000

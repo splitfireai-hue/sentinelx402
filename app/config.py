@@ -40,6 +40,11 @@ class Settings(BaseSettings):
     # Admin Dashboard
     ADMIN_SECRET: str = ""  # set in env to enable admin dashboard
 
+    # Trusted reverse-proxy hops (Railway/Cloudflare = 1). 0 disables XFF.
+    TRUSTED_PROXY_HOPS: int = 1
+    # Dedicated salt for IP hashing in anon counters (separate from ADMIN_SECRET)
+    ANON_IP_SALT: str = ""
+
     # Shared billing (point at the same Postgres + same RAZORPAY/STRIPE creds as SentinelCorp)
     BILLING_ENABLED: bool = False
     BILLING_PRODUCT: str = "sentinelx402"

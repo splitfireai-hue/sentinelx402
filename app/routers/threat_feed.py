@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import ipaddress
 import logging
-import re
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from slowapi import Limiter
@@ -20,14 +19,25 @@ logger = logging.getLogger(__name__)
 router = APIRouter(dependencies=[Depends(check_free_tier)])
 limiter = Limiter(key_func=get_remote_address)
 
-_DOMAIN_RE = re.compile(
-    r"^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.[A-Za-z0-9-]{1,63})*\.[A-Za-z]{2,}$"
-)
+_LABEL_CHARS = frozenset("abcdefghijklmnopqrstuvwxyz0123456789-")
 
 
 def _validate_domain(domain: str) -> str:
+    """Validate a domain name without regex to avoid ReDoS on crafted inputs."""
     domain = domain.strip().lower()
-    if len(domain) > 253 or not _DOMAIN_RE.match(domain):
+    if len(domain) > 253:
+        raise HTTPException(status_code=400, detail="Invalid domain format")
+    labels = domain.split(".")
+    if len(labels) < 2:
+        raise HTTPException(status_code=400, detail="Invalid domain format")
+    for label in labels:
+        if not label or len(label) > 63:
+            raise HTTPException(status_code=400, detail="Invalid domain format")
+        if label[0] == "-" or label[-1] == "-":
+            raise HTTPException(status_code=400, detail="Invalid domain format")
+        if not all(c in _LABEL_CHARS for c in label):
+            raise HTTPException(status_code=400, detail="Invalid domain format")
+    if not labels[-1].isalpha():
         raise HTTPException(status_code=400, detail="Invalid domain format")
     return domain
 

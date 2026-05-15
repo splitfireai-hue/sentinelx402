@@ -49,9 +49,15 @@ def _extract_key(request: Request) -> str:
 
 
 def _client_ip(request: Request) -> str:
-    fwd = request.headers.get("x-forwarded-for", "")
-    if fwd:
-        return fwd.split(",")[0].strip()
+    """Real client IP — resilient to X-Forwarded-For spoofing.
+    Take the (N)-th entry from the right where N=TRUSTED_PROXY_HOPS."""
+    hops = settings.TRUSTED_PROXY_HOPS
+    if hops > 0:
+        fwd = request.headers.get("x-forwarded-for", "")
+        if fwd:
+            parts = [p.strip() for p in fwd.split(",") if p.strip()]
+            if len(parts) >= hops:
+                return parts[-hops]
     if request.client and request.client.host:
         return request.client.host
     return "unknown"
@@ -98,8 +104,13 @@ class BillingAuthMiddleware(BaseHTTPMiddleware):
                         },
                     )
 
-                used = await auth_service.get_monthly_count(session, api_key.id, self.product)
-                if used >= api_key.monthly_quota:
+                # Atomic increment-then-check prevents the check-then-act race
+                # where two concurrent requests both read the same count and
+                # both pass the quota gate.
+                new_count = await auth_service.increment_usage_and_get_count(
+                    session, api_key.id, self.product
+                )
+                if new_count > api_key.monthly_quota:
                     return JSONResponse(
                         status_code=429,
                         content={
@@ -107,7 +118,7 @@ class BillingAuthMiddleware(BaseHTTPMiddleware):
                             "detail": "Monthly quota of {} reached on tier '{}'. Upgrade at /pricing.".format(
                                 api_key.monthly_quota, api_key.tier
                             ),
-                            "used": used,
+                            "used": new_count,
                             "quota": api_key.monthly_quota,
                             "tier": api_key.tier,
                         },
@@ -118,15 +129,10 @@ class BillingAuthMiddleware(BaseHTTPMiddleware):
                 request.state.api_key_email = api_key.email
 
                 response = await call_next(request)
-                try:
-                    await auth_service.increment_usage(session, api_key.id, self.product)
-                except Exception:
-                    logger.exception("Failed to increment usage for key_id=%s", api_key.id)
-
                 response.headers["X-RateLimit-Tier"] = api_key.tier
                 response.headers["X-RateLimit-Quota"] = str(api_key.monthly_quota)
-                response.headers["X-RateLimit-Used"] = str(used + 1)
-                response.headers["X-RateLimit-Remaining"] = str(max(api_key.monthly_quota - used - 1, 0))
+                response.headers["X-RateLimit-Used"] = str(new_count)
+                response.headers["X-RateLimit-Remaining"] = str(max(api_key.monthly_quota - new_count, 0))
                 return response
 
             # When x402 is enabled, fall through unauthed requests so the x402

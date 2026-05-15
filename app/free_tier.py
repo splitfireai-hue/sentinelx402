@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from datetime import datetime
 from typing import Optional
 
@@ -18,15 +19,23 @@ logger = logging.getLogger(__name__)
 FREE_PATHS = {"/health", "/info", "/usage", "/docs", "/redoc", "/openapi.json"}
 
 
+_WALLET_RE = re.compile(r"^0x[0-9a-fA-F]{40}$")
+
+
 def get_client_id_from_request(request) -> str:
-    """Extract client identifier — wallet address header or IP."""
-    wallet = request.headers.get("x-wallet-address", "")
-    if wallet:
+    """Extract client identifier — wallet address header or real client IP."""
+    wallet = request.headers.get("x-wallet-address", "").strip()
+    if wallet and _WALLET_RE.match(wallet):
         return "wallet:{}".format(wallet.lower())
+    # Real client IP (resilient to XFF spoofing — see middleware/auth._client_ip)
     client_ip = request.client.host if request.client else "unknown"
-    forwarded = request.headers.get("x-forwarded-for")
-    if forwarded:
-        client_ip = forwarded.split(",")[0].strip()
+    hops = settings.TRUSTED_PROXY_HOPS
+    if hops > 0:
+        forwarded = request.headers.get("x-forwarded-for", "")
+        if forwarded:
+            parts = [p.strip() for p in forwarded.split(",") if p.strip()]
+            if len(parts) >= hops:
+                client_ip = parts[-hops]
     return "ip:{}".format(client_ip)
 
 

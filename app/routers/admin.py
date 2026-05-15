@@ -26,11 +26,16 @@ from app.services.threat_feeds import get_cache as get_feed_cache
 router = APIRouter(tags=["Admin"])
 
 
-def _require_admin(key: str = Query(..., alias="key")) -> None:
-    """Simple secret key auth for admin endpoints."""
+def _require_admin(
+    request: Request,
+    key: str = Query(None, alias="key"),
+) -> None:
+    """Require admin secret via X-Admin-Secret header (preferred) or ?key= param.
+    Header is preferred because query params appear in server logs and referrer headers."""
     if not settings.ADMIN_SECRET:
         raise HTTPException(status_code=404, detail="Not found")
-    if key != settings.ADMIN_SECRET:
+    secret = request.headers.get("x-admin-secret", "").strip() or (key or "")
+    if not secret or secret != settings.ADMIN_SECRET:
         raise HTTPException(status_code=403, detail="Forbidden")
 
 
@@ -257,8 +262,7 @@ tr:hover{{background:#1a1a1a}}
 </div>
 
 <div class="refresh">
-  Auto-refreshes disabled. <a href="?key={admin_key}">Refresh now</a> |
-  <a href="?key={admin_key}" target="_blank">Open in new tab</a>
+  Auto-refreshes disabled. <a href="javascript:location.reload()">Refresh now</a>
 </div>
 
 </body>
@@ -299,7 +303,6 @@ tr:hover{{background:#1a1a1a}}
         bar_chart=bar_chart if bar_chart else "<div style='color:#666'>No traffic data yet</div>",
         bar_labels=bar_labels,
         client_rows=client_rows,
-        admin_key=settings.ADMIN_SECRET,
     )
 
 
