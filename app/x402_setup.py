@@ -8,6 +8,38 @@ Launch pricing (lower to drive adoption):
 
 from app.config import settings
 
+MAINNET_NETWORK = "eip155:8453"
+_ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
+
+
+def validate_x402_config() -> list:
+    """Return a list of fatal misconfiguration messages (empty == safe to enable).
+
+    Guards against the silent-failure mode where x402 is turned on but payments
+    can never settle (e.g. mainnet network pointed at the testnet-only facilitator,
+    or missing CDP auth), which would 402 every caller with no way to pay.
+    """
+    issues = []
+    if not settings.X402_ENABLED:
+        return issues
+
+    is_mainnet = settings.NETWORK_ID == MAINNET_NETWORK
+    facilitator = settings.FACILITATOR_URL or ""
+
+    if is_mainnet and "x402.org" in facilitator:
+        issues.append(
+            "NETWORK_ID is Base mainnet but FACILITATOR_URL is the testnet-only "
+            "x402.org facilitator. Set FACILITATOR_URL=https://api.cdp.coinbase.com/platform/v2/x402"
+        )
+    if is_mainnet and not (settings.CDP_API_KEY_ID and settings.CDP_API_KEY_SECRET):
+        issues.append(
+            "Base mainnet settlement requires the Coinbase CDP facilitator. "
+            "Set CDP_API_KEY_ID and CDP_API_KEY_SECRET in the environment."
+        )
+    if settings.WALLET_ADDRESS in ("", _ZERO_ADDRESS):
+        issues.append("WALLET_ADDRESS is unset/zero — payments would be unroutable.")
+    return issues
+
 
 def create_x402_server():
     from x402.http import FacilitatorConfig, HTTPFacilitatorClient

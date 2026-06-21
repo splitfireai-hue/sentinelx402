@@ -18,6 +18,11 @@ class Settings(BaseSettings):
     FACILITATOR_URL: str = "https://x402.org/facilitator"
     NETWORK_ID: str = "eip155:84532"
     X402_ENABLED: bool = False
+    # Coinbase CDP facilitator auth — REQUIRED for x402 on Base mainnet
+    # (eip155:8453). The x402 SDK reads these from the environment. Leave empty
+    # for the testnet (x402.org) facilitator, which needs no auth.
+    CDP_API_KEY_ID: str = ""
+    CDP_API_KEY_SECRET: str = ""
 
     # NVD
     NVD_API_KEY: str = ""

@@ -93,6 +93,42 @@ async def lifespan(app: FastAPI):
     logger.info("SentinelX402 shutdown complete")
 
 
+def _x402_should_bypass(headers: dict, billing_enabled: bool) -> bool:
+    """Whether an x402 paywall should be skipped for this request.
+
+    Fiat API-key customers must not ALSO be charged per-call via x402. The billing
+    middleware runs first (outermost) and rejects unknown keys, so any request that
+    still carries an api-key header by the time it reaches the x402 layer is an
+    already-billed, valid customer. Only honour the bypass when billing is enabled —
+    otherwise keys are never validated and a forged header could dodge payment.
+    """
+    if not billing_enabled:
+        return False
+    if b"x-api-key" in headers:
+        return True
+    return headers.get(b"authorization", b"")[:7].lower() == b"bearer "
+
+
+class ConditionalX402Middleware:
+    """Apply the x402 per-call paywall ONLY to anonymous (no API key) requests.
+
+    Lets the two monetization rails coexist: registered customers pay via fiat
+    API keys (billing middleware), anonymous agents pay per call via x402.
+    """
+
+    def __init__(self, app, *, payment_cls, server, routes):
+        self._passthrough = app
+        self._paywalled = payment_cls(app, routes=routes, server=server)
+
+    async def __call__(self, scope, receive, send):
+        if scope.get("type") != "http":
+            return await self._passthrough(scope, receive, send)
+        headers = dict(scope.get("headers") or [])
+        if _x402_should_bypass(headers, settings.BILLING_ENABLED):
+            return await self._passthrough(scope, receive, send)
+        return await self._paywalled(scope, receive, send)
+
+
 app = FastAPI(
     title=settings.API_TITLE,
     version=settings.API_VERSION,
@@ -116,8 +152,35 @@ app.add_middleware(
     max_age=86400,
 )
 
+# x402 micropayments (conditional). Added BEFORE billing so it executes AFTER
+# billing — authenticated customers are billed via fiat and bypass the paywall;
+# only anonymous callers are charged per call. Skipped if misconfigured so a
+# bad payment setup can never take down the free/billed endpoints.
+if settings.X402_ENABLED:
+    try:
+        from x402.http.middleware.fastapi import PaymentMiddlewareASGI
+    except ImportError:
+        import sys
+        print("ERROR: x402 package not installed. Install with: pip install 'x402[fastapi,evm]'", file=sys.stderr)
+        raise
+    from app.x402_setup import create_x402_server, get_routes_config, validate_x402_config
+
+    _x402_issues = validate_x402_config()
+    if _x402_issues:
+        for _issue in _x402_issues:
+            logger.error("x402 NOT enabled — %s", _issue)
+    else:
+        app.add_middleware(
+            ConditionalX402Middleware,
+            payment_cls=PaymentMiddlewareASGI,
+            server=create_x402_server(),
+            routes=get_routes_config(),
+        )
+        logger.info("x402 paywall enabled (anonymous callers only)")
+
 # Shared billing: validates X-API-Key against the same Postgres table as
-# SentinelCorp. No-op when BILLING_ENABLED=false.
+# SentinelCorp. No-op when BILLING_ENABLED=false. Added AFTER x402 so it
+# executes FIRST (outermost) and rejects invalid keys before the paywall.
 app.add_middleware(BillingAuthMiddleware, product=settings.BILLING_PRODUCT)
 
 
@@ -186,20 +249,6 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"error": "internal_server_error", "detail": "An unexpected error occurred"},
     )
 
-
-# x402 payment middleware (conditional)
-if settings.X402_ENABLED:
-    try:
-        from x402.http.middleware.fastapi import PaymentMiddlewareASGI
-        from app.x402_setup import create_x402_server, get_routes_config
-
-        server = create_x402_server()
-        routes = get_routes_config()
-        app.add_middleware(PaymentMiddlewareASGI, routes=routes, server=server)
-    except ImportError:
-        import sys
-        print("ERROR: x402 package not installed. Install with: pip install 'x402[fastapi,evm]'", file=sys.stderr)
-        raise
 
 # --- Discovery endpoints (for crawlers and agents) ---
 
