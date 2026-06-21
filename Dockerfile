@@ -6,7 +6,7 @@ RUN pip install --no-cache-dir --upgrade pip
 COPY pyproject.toml .
 RUN pip install --no-cache-dir --prefix=/install . && \
     pip install --no-cache-dir --prefix=/install gunicorn greenlet asyncpg && \
-    pip install --no-cache-dir --prefix=/install "x402[fastapi,evm]" || true
+    pip install --no-cache-dir --prefix=/install "x402[fastapi,evm]" cdp-sdk || true
 
 FROM python:3.11-slim
 

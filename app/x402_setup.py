@@ -54,12 +54,34 @@ def x402_is_active() -> bool:
 
 
 def create_x402_server():
-    from x402.http import FacilitatorConfig, HTTPFacilitatorClient
+    from x402.http import (
+        CreateHeadersAuthProvider,
+        FacilitatorConfig,
+        HTTPFacilitatorClient,
+    )
     from x402.mechanisms.evm.exact import ExactEvmServerScheme
     from x402.server import x402ResourceServer
 
+    # The Coinbase CDP facilitator (Base mainnet) authenticates every verify/
+    # settle call with signed headers built from the CDP API key. cdp-sdk's
+    # create_cdp_auth_headers produces the per-endpoint header callable; x402's
+    # CreateHeadersAuthProvider adapts it to the facilitator's AuthProvider
+    # protocol. The testnet (x402.org) facilitator needs no auth (provider=None).
+    auth_provider = None
+    if settings.CDP_API_KEY_ID and settings.CDP_API_KEY_SECRET:
+        try:
+            from cdp.x402.x402 import create_cdp_auth_headers
+        except ImportError as exc:  # pragma: no cover - depends on cdp-sdk in image
+            raise RuntimeError(
+                "CDP_API_KEY_ID/SECRET are set but cdp-sdk is not installed. "
+                "Add 'cdp-sdk' to the image to use the Coinbase mainnet facilitator."
+            ) from exc
+        auth_provider = CreateHeadersAuthProvider(
+            create_cdp_auth_headers(settings.CDP_API_KEY_ID, settings.CDP_API_KEY_SECRET)
+        )
+
     facilitator = HTTPFacilitatorClient(
-        FacilitatorConfig(url=settings.FACILITATOR_URL)
+        FacilitatorConfig(url=settings.FACILITATOR_URL, auth_provider=auth_provider)
     )
     server = x402ResourceServer(facilitator)
     server.register(settings.NETWORK_ID, ExactEvmServerScheme())
