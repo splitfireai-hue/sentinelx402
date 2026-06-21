@@ -135,10 +135,15 @@ class BillingAuthMiddleware(BaseHTTPMiddleware):
                 response.headers["X-RateLimit-Remaining"] = str(max(api_key.monthly_quota - new_count, 0))
                 return response
 
-            # When x402 is enabled, fall through unauthed requests so the x402
-            # middleware can demand per-call payment. Tracking still happens for
-            # observability but the daily limit doesn't block.
-            if settings.X402_ENABLED:
+            # When the x402 paywall is actually active, fall through unauthed
+            # requests so the x402 middleware can demand per-call payment. Gate on
+            # x402_is_active() (not the raw flag): if x402 is enabled but
+            # misconfigured, no paywall is mounted, so we must NOT fall through —
+            # otherwise anonymous callers would bypass the trial limit AND the
+            # (absent) paywall, getting unlimited free access.
+            from app.x402_setup import x402_is_active
+
+            if x402_is_active():
                 request.state.api_key_id = None
                 request.state.api_key_tier = "x402"
                 return await call_next(request)

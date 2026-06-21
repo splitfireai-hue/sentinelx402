@@ -41,6 +41,18 @@ def validate_x402_config() -> list:
     return issues
 
 
+def x402_is_active() -> bool:
+    """Single source of truth: is the x402 paywall actually mounted and working?
+
+    True only when x402 is enabled AND its config is valid. Both the paywall
+    mount (app.main) and the billing fall-through (middleware.auth) must key off
+    THIS, not the raw X402_ENABLED flag — otherwise a misconfigured-but-enabled
+    x402 makes billing stop enforcing the anon trial limit while no paywall is
+    mounted, leaking unlimited free access to the paid endpoints.
+    """
+    return settings.X402_ENABLED and not validate_x402_config()
+
+
 def create_x402_server():
     from x402.http import FacilitatorConfig, HTTPFacilitatorClient
     from x402.mechanisms.evm.exact import ExactEvmServerScheme

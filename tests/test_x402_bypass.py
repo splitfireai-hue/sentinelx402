@@ -6,8 +6,10 @@ API-key customers must bypass it. See app.main._x402_should_bypass.
 
 from __future__ import annotations
 
+import importlib
+
 from app.main import _x402_should_bypass
-from app.x402_setup import validate_x402_config
+from app.x402_setup import validate_x402_config, x402_is_active
 
 
 def _h(**kwargs) -> dict:
@@ -45,3 +47,34 @@ def test_no_bypass_when_billing_disabled():
 def test_validate_passes_when_x402_disabled():
     # validate_x402_config short-circuits to empty when the flag is off.
     assert validate_x402_config() == []
+
+
+def test_x402_inactive_when_disabled():
+    # Default test env has X402_ENABLED=false.
+    assert x402_is_active() is False
+
+
+def test_x402_inactive_when_enabled_but_misconfigured(monkeypatch):
+    # Enabled on mainnet with no facilitator creds / zero wallet -> config invalid
+    # -> NOT active, so billing keeps enforcing the anon trial limit (no free leak).
+    import app.config as cfg
+    monkeypatch.setattr(cfg.settings, "X402_ENABLED", True)
+    monkeypatch.setattr(cfg.settings, "NETWORK_ID", "eip155:8453")
+    monkeypatch.setattr(cfg.settings, "FACILITATOR_URL", "https://x402.org/facilitator")
+    monkeypatch.setattr(cfg.settings, "WALLET_ADDRESS", "0x" + "0" * 40)
+    monkeypatch.setattr(cfg.settings, "CDP_API_KEY_ID", "")
+    monkeypatch.setattr(cfg.settings, "CDP_API_KEY_SECRET", "")
+    assert validate_x402_config(), "expected config issues"
+    assert x402_is_active() is False
+
+
+def test_x402_active_when_enabled_and_valid(monkeypatch):
+    import app.config as cfg
+    monkeypatch.setattr(cfg.settings, "X402_ENABLED", True)
+    monkeypatch.setattr(cfg.settings, "NETWORK_ID", "eip155:8453")
+    monkeypatch.setattr(cfg.settings, "FACILITATOR_URL", "https://api.cdp.coinbase.com/platform/v2/x402")
+    monkeypatch.setattr(cfg.settings, "WALLET_ADDRESS", "0x37E59eeF69A26Bf790434f8d28AF68817E30Ec8A")
+    monkeypatch.setattr(cfg.settings, "CDP_API_KEY_ID", "id")
+    monkeypatch.setattr(cfg.settings, "CDP_API_KEY_SECRET", "secret")
+    assert validate_x402_config() == []
+    assert x402_is_active() is True
