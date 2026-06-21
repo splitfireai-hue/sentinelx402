@@ -73,7 +73,7 @@ def test_x402_active_when_enabled_and_valid(monkeypatch):
     monkeypatch.setattr(cfg.settings, "X402_ENABLED", True)
     monkeypatch.setattr(cfg.settings, "NETWORK_ID", "eip155:8453")
     monkeypatch.setattr(cfg.settings, "FACILITATOR_URL", "https://api.cdp.coinbase.com/platform/v2/x402")
-    monkeypatch.setattr(cfg.settings, "WALLET_ADDRESS", "0x37E59eeF69A26Bf790434f8d28AF68817E30Ec8A")
+    monkeypatch.setattr(cfg.settings, "WALLET_ADDRESS", "0x" + "11" * 20)
     monkeypatch.setattr(cfg.settings, "CDP_API_KEY_ID", "id")
     monkeypatch.setattr(cfg.settings, "CDP_API_KEY_SECRET", "secret")
     assert validate_x402_config() == []
