@@ -71,10 +71,10 @@ async def _fetch_openphish(client: httpx.AsyncClient) -> tuple:
     return urls, domains
 
 
-async def refresh_feeds() -> ThreatFeedCache:
+async def refresh_feeds(force: bool = False) -> ThreatFeedCache:
     global _cache
     async with _lock:
-        if not _cache.is_stale:
+        if not force and not _cache.is_stale:
             return _cache
         logger.info("Refreshing threat intelligence feeds...")
         async with httpx.AsyncClient() as client:

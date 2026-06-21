@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 import time
 from contextlib import asynccontextmanager
@@ -19,6 +20,30 @@ from app.models import Base
 from app.routers import admin, billing, cve_intelligence, health, india_advisories, threat_feed
 
 logger = logging.getLogger(__name__)
+
+# Refresh feeds comfortably before the 30-minute cache TTL so the in-memory
+# cache never goes stale between refreshes.
+FEED_REFRESH_INTERVAL_SECONDS = 25 * 60
+
+
+async def _feed_refresh_loop():
+    """Periodically refresh the in-memory threat feed cache.
+
+    Without this, feeds load once at container startup and then go stale after
+    the TTL expires (and stay stale for the lifetime of the container, since
+    nothing else re-triggers a refresh).
+    """
+    from app.services.threat_feeds import refresh_feeds
+
+    while True:
+        try:
+            await asyncio.sleep(FEED_REFRESH_INTERVAL_SECONDS)
+            feeds = await refresh_feeds(force=True)
+            logger.info("Scheduled feed refresh: %d total indicators", feeds.total_indicators)
+        except asyncio.CancelledError:
+            raise
+        except Exception as e:
+            logger.warning("Scheduled feed refresh failed (will retry next cycle): %s", e)
 
 
 @asynccontextmanager
@@ -43,7 +68,17 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.warning("Threat feed initial load failed (will retry on first request): %s", e)
 
+    # Keep feeds fresh for the lifetime of the container
+    refresh_task = asyncio.create_task(_feed_refresh_loop())
+
     yield
+
+    # Stop the background refresh loop
+    refresh_task.cancel()
+    try:
+        await refresh_task
+    except asyncio.CancelledError:
+        pass
 
     # Flush remaining metrics to DB
     try:
